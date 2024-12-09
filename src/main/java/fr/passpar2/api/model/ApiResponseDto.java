@@ -2,14 +2,18 @@ package fr.passpar2.api.model;
 
 import org.springframework.http.HttpStatus;
 
-public class ApiResponse<T> {
+import java.time.LocalDateTime;
+
+public class ApiResponseDto<T> {
 
         private T response;
         private HttpStatus status;
+        private LocalDateTime timestamp;
 
-        public ApiResponse(T response, HttpStatus status) {
+        public ApiResponseDto(T response, HttpStatus status) {
             this.response = response;
             this.status = status;
+            this.timestamp = LocalDateTime.now();
         }
 
         public T getResponse() {
@@ -28,4 +32,11 @@ public class ApiResponse<T> {
             this.status = status;
         }
 
+        public LocalDateTime getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(LocalDateTime timestamp) {
+            this.timestamp = timestamp;
+        }
 }
