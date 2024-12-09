@@ -20,6 +20,7 @@ public class userRestController {
     public userRestController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping()
     public ResponseEntity<ApiResponseDto<List<UserDao>>> getAllUsers() {
         ApiResponseDto<List<UserDao>> response = new ApiResponseDto<>(userService.getAllUsers(), HttpStatus.OK);

@@ -1,12 +1,16 @@
 package fr.passpar2.api.service;
 
+import fr.passpar2.api.entity.AddressDao;
+import fr.passpar2.api.repository.IAddressRepository;
 import org.apache.catalina.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import fr.passpar2.api.entity.UserDao;
 import fr.passpar2.api.repository.IUserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +18,11 @@ import java.util.Optional;
 public class UserService {
 
     private final IUserRepository userRepository;
+    private final IAddressRepository addressRepository;
 
-    public UserService(IUserRepository userRepository) {
+    public UserService(IUserRepository userRepository, IAddressRepository addressRepository) {
         this.userRepository = userRepository;
+        this.addressRepository = addressRepository;
     }
 
     public List<UserDao> getAllUsers() {
@@ -27,11 +33,44 @@ public class UserService {
         Optional<UserDao> userOptional = userRepository.findByEmail(email);
 
         return userOptional.orElseThrow(() ->
-                new RuntimeException("Adresse mail invalide !")
+                new RuntimeException("Identifiant ou mot de passe invalide")
         );
     }
 
-    public UserDao saveUser(UserDao user) {
-        return userRepository.save(user);
+    public UserDao loginUser(String email, String password) {
+        UserDao user = getUserByEmail(email);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(password, user.getPasswordHash()))
+            throw new RuntimeException("Identifiant ou mot de passe invalide");
+
+        return user;
+    }
+
+    public UserDao registerUser(String firstName, String lastName, String email, String password, AddressDao address) {
+        if (userRepository.existsByEmail(email))
+            throw new IllegalArgumentException("Un utilisateur avec cet email existe déjà.");
+
+        if (address == null)
+            throw new IllegalArgumentException("L'adresse ne peut pas être nulle.");
+
+        UserDao newUser = new UserDao();
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setEmail(email);
+
+        String hashedPassword = hashPassword(password);
+        newUser.setPasswordHash(hashedPassword);
+
+        newUser.setAddress(address);
+        newUser.setCreatedAt(LocalDateTime.now());
+        newUser.setUpdatedAt(LocalDateTime.now());
+        newUser.setActive(true);
+
+        return userRepository.save(newUser);
+    }
+
+    private String hashPassword(String password) {
+        return new BCryptPasswordEncoder().encode(password);
     }
 }

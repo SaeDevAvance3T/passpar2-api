@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface IUserRepository extends JpaRepository<UserDao, Integer> {
     Optional<UserDao> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
