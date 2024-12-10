@@ -17,6 +17,8 @@ public class AddressDao {
     private String postalCode;
     private String country;
     private String complement;
+    private Double latitude;
+    private Double longitude;
 
     public int getId() {
         return id;
@@ -64,5 +66,17 @@ public class AddressDao {
 
     public void setComplement(String complement) {
         this.complement = complement;
+    }
+
+    public Double getLatitude() { return this.latitude; }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() { return this.longitude; }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
