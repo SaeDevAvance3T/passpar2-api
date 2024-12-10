@@ -25,7 +25,6 @@ public class UserDao {
 
     private boolean isActive;
 
-    // Getters et setters
     public int getId() {
         return id;
     }

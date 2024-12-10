@@ -2,13 +2,11 @@ package fr.passpar2.api.service;
 
 import fr.passpar2.api.entity.AddressDao;
 import fr.passpar2.api.repository.IAddressRepository;
-import org.apache.catalina.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import fr.passpar2.api.entity.UserDao;
 import fr.passpar2.api.repository.IUserRepository;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
