@@ -1,13 +1,10 @@
 package fr.passpar2.api.model;
 
-import fr.passpar2.api.entity.AddressDao;
-
 public class RegisterRequestDto {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private AddressDao address;
 
     public String getFirstName() {
         return firstName;
@@ -39,13 +36,5 @@ public class RegisterRequestDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public AddressDao getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressDao address) {
-        this.address = address;
     }
 }

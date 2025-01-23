@@ -1,6 +1,5 @@
 package fr.passpar2.api.model;
 
-import fr.passpar2.api.entity.AddressDao;
 import fr.passpar2.api.entity.ContactDao;
 
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 public class CustomerRequestDto {
     private String name;
     private String description;
-    private AddressDao address;
     private List<ContactDao> contacts;
 
     public String getName() {
@@ -23,12 +21,6 @@ public class CustomerRequestDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public AddressDao getAddress() { return this.address; }
-
-    public void setAddress(AddressDao address) {
-        this.address = address;
     }
 
     public List<ContactDao> getContacts() { return this.contacts; }

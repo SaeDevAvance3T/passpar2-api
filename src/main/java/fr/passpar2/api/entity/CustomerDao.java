@@ -15,8 +15,8 @@ public class CustomerDao {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "fk_address")
-    private AddressDao address;
+    @JoinColumn(name = "fk_user")
+    private UserDao user;
 
     @ManyToMany
     @JoinTable(
@@ -50,12 +50,12 @@ public class CustomerDao {
         this.description = description;
     }
 
-    public AddressDao getAddress() {
-        return address;
+    public UserDao getUser() {
+        return user;
     }
 
-    public void setAddress(AddressDao address) {
-        this.address = address;
+    public void setUser(UserDao user) {
+        this.user = user;
     }
 
     public List<ContactDao> getContacts() {

@@ -16,15 +16,6 @@ public class UserDao {
     private String email;
     private String passwordHash;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_address")
-    private AddressDao address;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    private boolean isActive;
-
     public int getId() {
         return id;
     }
@@ -63,37 +54,5 @@ public class UserDao {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-    }
-
-    public AddressDao getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressDao address) {
-        this.address = address;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 }

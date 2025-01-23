@@ -1,12 +1,10 @@
 package fr.passpar2.api.controller;
 
-import fr.passpar2.api.entity.AddressDao;
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.UserDao;
 import fr.passpar2.api.model.ApiResponseDto;
 import fr.passpar2.api.model.CustomerRequestDto;
-import fr.passpar2.api.service.AddressService;
 import fr.passpar2.api.service.ContactService;
 import fr.passpar2.api.service.CustomerService;
 import org.springframework.http.HttpStatus;
@@ -21,12 +19,10 @@ import java.util.List;
 public class customerRestController {
 
     private final CustomerService customerService;
-    private final AddressService addressService;
     private final ContactService contactService;
 
-    public customerRestController(CustomerService customerService,AddressService addressService, ContactService contactService) {
+    public customerRestController(CustomerService customerService, ContactService contactService) {
         this.customerService = customerService;
-        this.addressService = addressService;
         this.contactService = contactService;
     }
 
@@ -38,7 +34,7 @@ public class customerRestController {
 
     @PostMapping()
     public ResponseEntity<ApiResponseDto<CustomerDao>> addCustomer(@RequestBody CustomerRequestDto request) {
-        AddressDao savedAddress = addressService.createAddress(request.getAddress());
+        // AddressDao savedAddress = addressService.createAddress(request.getAddress());
 
         List<ContactDao> savedContacts = new ArrayList<ContactDao>();
         for (ContactDao contact : request.getContacts()) {
@@ -48,11 +44,19 @@ public class customerRestController {
         CustomerDao newCustomer = customerService.createCustomer(
                 request.getName(),
                 request.getDescription(),
-                savedAddress,
                 savedContacts
         );
 
         ApiResponseDto<CustomerDao> response = new ApiResponseDto<CustomerDao>(newCustomer, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponseDto<List<CustomerDao>>> getCustomersByUserId(@PathVariable int userId) {
+        UserDao user = new UserDao();
+        user.setId(userId);
+
+        ApiResponseDto<List<CustomerDao>> response = new ApiResponseDto<>(customerService.getCustomersByUser(user), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

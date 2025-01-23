@@ -1,7 +1,5 @@
 package fr.passpar2.api.service;
 
-import fr.passpar2.api.entity.AddressDao;
-import fr.passpar2.api.repository.IAddressRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +14,9 @@ import java.util.Optional;
 public class UserService {
 
     private final IUserRepository userRepository;
-    private final IAddressRepository addressRepository;
 
-    public UserService(IUserRepository userRepository, IAddressRepository addressRepository) {
+    public UserService(IUserRepository userRepository) {
         this.userRepository = userRepository;
-        this.addressRepository = addressRepository;
     }
 
     public List<UserDao> getAllUsers() {
@@ -45,12 +41,12 @@ public class UserService {
         return user;
     }
 
-    public UserDao registerUser(String firstName, String lastName, String email, String password, AddressDao address) {
+    public UserDao registerUser(String firstName, String lastName, String email, String password) {
         if (userRepository.existsByEmail(email))
             throw new IllegalArgumentException("Un utilisateur avec cet email existe déjà.");
 
-        if (address == null)
-            throw new IllegalArgumentException("L'adresse ne peut pas être nulle.");
+        // if (address == null)
+        //     throw new IllegalArgumentException("L'adresse ne peut pas être nulle.");
 
         UserDao newUser = new UserDao();
         newUser.setFirstName(firstName);
@@ -59,11 +55,6 @@ public class UserService {
 
         String hashedPassword = hashPassword(password);
         newUser.setPasswordHash(hashedPassword);
-
-        newUser.setAddress(address);
-        newUser.setCreatedAt(LocalDateTime.now());
-        newUser.setUpdatedAt(LocalDateTime.now());
-        newUser.setActive(true);
 
         return userRepository.save(newUser);
     }
