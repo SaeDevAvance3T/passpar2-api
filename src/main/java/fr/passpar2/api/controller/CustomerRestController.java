@@ -1,10 +1,13 @@
 package fr.passpar2.api.controller;
 
+import fr.passpar2.api.entity.AddressDao;
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.UserDao;
 import fr.passpar2.api.model.ApiResponseDto;
+import fr.passpar2.api.model.CustomerDto;
 import fr.passpar2.api.model.CustomerRequestDto;
+import fr.passpar2.api.service.AddressService;
 import fr.passpar2.api.service.ContactService;
 import fr.passpar2.api.service.CustomerService;
 import org.springframework.http.HttpStatus;
@@ -16,19 +19,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
-public class customerRestController {
+public class CustomerRestController {
 
     private final CustomerService customerService;
+    private final AddressService addressService;
     private final ContactService contactService;
 
-    public customerRestController(CustomerService customerService, ContactService contactService) {
+    public CustomerRestController(
+            CustomerService customerService,
+            AddressService addressService,
+            ContactService contactService
+    ) {
         this.customerService = customerService;
+        this.addressService = addressService;
         this.contactService = contactService;
     }
 
     @GetMapping()
-    public ResponseEntity<ApiResponseDto<List<CustomerDao>>> getAllCustomers() {
-        ApiResponseDto<List<CustomerDao>> response = new ApiResponseDto<>(customerService.getAllCustomers(), HttpStatus.OK);
+    public ResponseEntity<ApiResponseDto<List<CustomerDto>>> getAllCustomers(@RequestParam(required = false) Integer user) {
+        List<CustomerDto> customersResult = new ArrayList<CustomerDto>();
+        List<CustomerDao> customers;
+
+        if (user != null)
+            customers = customerService.getCustomersByUserId(user);
+        else
+            customers = customerService.getAllCustomers();
+
+
+        for (CustomerDao customer: customers) {
+            AddressDao addressCustomer = addressService.getAddressByIdCustomer(customer);
+
+            CustomerDto customerResult = new CustomerDto(customer);
+            customerResult.setAddress(addressCustomer);
+
+            customersResult.add(customerResult);
+        }
+
+        ApiResponseDto<List<CustomerDto>> response = new ApiResponseDto<>(customersResult, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -49,14 +76,5 @@ public class customerRestController {
 
         ApiResponseDto<CustomerDao> response = new ApiResponseDto<CustomerDao>(newCustomer, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<ApiResponseDto<List<CustomerDao>>> getCustomersByUserId(@PathVariable int userId) {
-        UserDao user = new UserDao();
-        user.setId(userId);
-
-        ApiResponseDto<List<CustomerDao>> response = new ApiResponseDto<>(customerService.getCustomersByUser(user), HttpStatus.OK);
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

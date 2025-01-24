@@ -1,6 +1,7 @@
 package fr.passpar2.api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Null;
 
 import java.util.List;
 
