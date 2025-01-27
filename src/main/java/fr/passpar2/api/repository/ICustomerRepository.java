@@ -13,5 +13,5 @@ import java.util.List;
 public interface ICustomerRepository extends JpaRepository<CustomerDao, Integer> {
 
     @Query("SELECT c FROM pp2_customer c WHERE c.user.id = :id")
-    List<CustomerDao> findAllByUserId(@Param("user") int id);
+    List<CustomerDao> findAllByUserId(@Param("id") int id);
 }
