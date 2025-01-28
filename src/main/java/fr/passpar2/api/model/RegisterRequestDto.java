@@ -5,6 +5,7 @@ public class RegisterRequestDto {
     private String lastName;
     private String email;
     private String password;
+    private AddressDto address;
 
     public String getFirstName() {
         return firstName;
@@ -37,4 +38,8 @@ public class RegisterRequestDto {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public AddressDto getAddress() { return this.address; }
+
+    public void setAddress(AddressDto address) { this.address = address; }
 }
