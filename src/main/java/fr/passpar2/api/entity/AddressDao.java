@@ -20,6 +20,8 @@ public class AddressDao {
     private int postalCode;
     private String supplement;
 
+    public AddressDao() {}
+
     public AddressDao(AddressDto model) {
         this.id = model.getId();
         this.customerId = model.getCustomerId();
