@@ -21,4 +21,8 @@ public class ItineraryService {
         return this.itineraryRepository.findAll();
     }
 
+    public List<ItineraryDao> getAllItinerariesByUserId(int id) {
+        return this.itineraryRepository.findByUserId(id);
+    }
+
 }
