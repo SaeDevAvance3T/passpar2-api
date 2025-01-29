@@ -1,5 +1,6 @@
 package fr.passpar2.api.entity;
 
+import fr.passpar2.api.model.ItineraryDto;
 import fr.passpar2.api.model.ItineraryPointDto;
 import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,6 +16,13 @@ public class ItineraryDao {
     private int userId;
     private String name;
     private List<ItineraryPointDto> itinerary;
+
+    public ItineraryDao(ItineraryDto model) {
+        this.id = model.getId();
+        this.userId = model.getUserId();
+        this.name = model.getName();
+        this.itinerary = model.getItinerary();
+    }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

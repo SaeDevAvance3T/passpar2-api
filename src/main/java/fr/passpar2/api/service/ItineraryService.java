@@ -17,6 +17,10 @@ public class ItineraryService {
         this.itineraryRepository = itineraryRepository;
     }
 
+    public ItineraryDao saveItinerary(ItineraryDao itinerary) {
+        return itineraryRepository.save(itinerary);
+    }
+
     public List<ItineraryDao> getAllItineraries() {
         return this.itineraryRepository.findAll();
     }

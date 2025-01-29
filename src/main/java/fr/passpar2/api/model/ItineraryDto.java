@@ -10,6 +10,8 @@ public class ItineraryDto {
     private String name;
     private List<ItineraryPointDto> itinerary;
 
+    public ItineraryDto() { }
+
     public ItineraryDto(ItineraryDao model) {
         this.id = model.getId();
         this.userId = model.getUserId();
