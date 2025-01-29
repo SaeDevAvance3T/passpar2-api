@@ -51,7 +51,9 @@ public class CustomerRestController {
             AddressDao addressCustomer = addressService.getAddressByCustomerId(customer.getId());
 
             CustomerDto customerResult = new CustomerDto(customer);
-            customerResult.setAddress(new AddressDto(addressCustomer));
+
+            if (addressCustomer != null)
+                customerResult.setAddress(new AddressDto(addressCustomer));
 
             customersResult.add(customerResult);
         }
@@ -62,8 +64,6 @@ public class CustomerRestController {
 
     @PostMapping()
     public ResponseEntity<ApiResponseDto<CustomerDto>> addCustomer(@RequestBody CustomerRequestDto request) {
-        // AddressDao savedAddress = addressService.createAddress(request.getAddress());
-
         List<ContactDao> savedContacts = new ArrayList<ContactDao>();
         for (ContactDao contact : request.getContacts()) {
             savedContacts.add(contactService.createContact(contact));
