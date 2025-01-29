@@ -2,6 +2,7 @@ package fr.passpar2.api.model;
 
 import fr.passpar2.api.entity.ItineraryDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItineraryDto {
@@ -31,5 +32,9 @@ public class ItineraryDto {
     public List<ItineraryPointDto> getItinerary() { return this.itinerary; }
     public ItineraryPointDto getItineraryPoint(int index) { return this.itinerary.get(index); }
     public void setItinerary(List<ItineraryPointDto> itinerary) { this.itinerary = itinerary; }
-    public void addItineraryPoint(ItineraryPointDto itineraryPoint) { this.itinerary.add(itineraryPoint); }
+    public void addItineraryPoint(ItineraryPointDto itineraryPoint) {
+        if (this.itinerary == null)
+            this.itinerary = new ArrayList<>();
+        this.itinerary.add(itineraryPoint);
+    }
 }
