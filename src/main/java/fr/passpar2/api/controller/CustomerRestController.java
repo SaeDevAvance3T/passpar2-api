@@ -71,7 +71,8 @@ public class CustomerRestController {
         CustomerDao newCustomer = customerService.createCustomer(
                 request.getName(),
                 request.getDescription(),
-                savedContacts
+                savedContacts,
+                request.getUserId()
         );
 
         ApiResponseDto<CustomerDao> response = new ApiResponseDto<CustomerDao>(newCustomer, HttpStatus.CREATED);

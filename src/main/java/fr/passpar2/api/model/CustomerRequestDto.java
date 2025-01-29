@@ -7,6 +7,7 @@ import java.util.List;
 public class CustomerRequestDto {
     private String name;
     private String description;
+    private int userId;
     private List<ContactDao> contacts;
 
     public String getName() {
@@ -22,6 +23,9 @@ public class CustomerRequestDto {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public int getUserId() { return this.userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
     public List<ContactDao> getContacts() { return this.contacts; }
 

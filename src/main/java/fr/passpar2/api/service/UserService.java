@@ -31,6 +31,14 @@ public class UserService {
         );
     }
 
+    public UserDao getUserById(int id) {
+        Optional<UserDao> userOptional = userRepository.findById(id);
+
+        return userOptional.orElseThrow(() ->
+                new RuntimeException("Utilisateur introuvable")
+        );
+    }
+
     public UserDao loginUser(String email, String password) {
         UserDao user = getUserByEmail(email);
 

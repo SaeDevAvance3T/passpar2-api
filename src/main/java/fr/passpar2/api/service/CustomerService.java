@@ -14,17 +14,23 @@ public class CustomerService {
 
     private final ICustomerRepository customerRepository;
     private final AddressService addressService;
+    private final UserService userService;
 
-    public CustomerService(ICustomerRepository customerRepository, AddressService addressService) {
+    public CustomerService(
+            ICustomerRepository customerRepository,
+            AddressService addressService,
+            UserService userService
+    ) {
         this.customerRepository = customerRepository;
         this.addressService = addressService;
+        this.userService = userService;
     }
 
     public List<CustomerDao> getCustomersByUserId(int id) {
         return customerRepository.findAllByUserId(id);
     }
 
-    public CustomerDao createCustomer(String name, String description, List<ContactDao> contacts) {
+    public CustomerDao createCustomer(String name, String description, List<ContactDao> contacts, int userId) {
         if (contacts == null || contacts.isEmpty()) {
             throw new IllegalArgumentException("Un contact doit être renseigné.");
         }
@@ -33,6 +39,7 @@ public class CustomerService {
         newCustomer.setName(name);
         newCustomer.setDescription(description);
         newCustomer.setContacts(contacts);
+        newCustomer.setUser(userService.getUserById(userId));
 
         return customerRepository.save(newCustomer);
     }
