@@ -17,7 +17,7 @@ public class ItineraryDao {
     private String name;
     private List<ItineraryPointDto> itinerary;
 
-    public ItineraryDto() { }
+    public ItineraryDao() { }
 
     public ItineraryDao(ItineraryDto model) {
         this.id = model.getId();
