@@ -9,6 +9,7 @@ public class CustomerRequestDto {
     private String description;
     private int userId;
     private List<ContactDao> contacts;
+    private AddressDto address;
 
     public String getName() {
         return this.name;
@@ -36,4 +37,7 @@ public class CustomerRequestDto {
     public void addContact(ContactDao contact) {
         this.contacts.add(contact);
     }
+
+    public AddressDto getAddress() { return this.address; }
+    public void setAddress(AddressDto address) { this.address = address; }
 }

@@ -4,6 +4,7 @@ import fr.passpar2.api.entity.AddressDao;
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.UserDao;
+import fr.passpar2.api.model.AddressDto;
 import fr.passpar2.api.model.ApiResponseDto;
 import fr.passpar2.api.model.CustomerDto;
 import fr.passpar2.api.model.CustomerRequestDto;
@@ -50,7 +51,7 @@ public class CustomerRestController {
             AddressDao addressCustomer = addressService.getAddressByCustomerId(customer.getId());
 
             CustomerDto customerResult = new CustomerDto(customer);
-            customerResult.setAddress(addressCustomer);
+            customerResult.setAddress(new AddressDto(addressCustomer));
 
             customersResult.add(customerResult);
         }
@@ -60,7 +61,7 @@ public class CustomerRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<ApiResponseDto<CustomerDao>> addCustomer(@RequestBody CustomerRequestDto request) {
+    public ResponseEntity<ApiResponseDto<CustomerDto>> addCustomer(@RequestBody CustomerRequestDto request) {
         // AddressDao savedAddress = addressService.createAddress(request.getAddress());
 
         List<ContactDao> savedContacts = new ArrayList<ContactDao>();
@@ -75,7 +76,14 @@ public class CustomerRestController {
                 request.getUserId()
         );
 
-        ApiResponseDto<CustomerDao> response = new ApiResponseDto<CustomerDao>(newCustomer, HttpStatus.CREATED);
+        AddressDao customerAddress = new AddressDao(request.getAddress());
+        customerAddress.setCustomerId(newCustomer.getId());
+        addressService.saveAddress(customerAddress);
+
+        CustomerDto customer = new CustomerDto(newCustomer);
+        customer.setAddress(new AddressDto(customerAddress));
+
+        ApiResponseDto<CustomerDto> response = new ApiResponseDto<>(customer, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

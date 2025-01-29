@@ -55,12 +55,9 @@ public class CustomerDto {
         return address;
     }
 
-    public void setAddress(AddressDao model) {
-        if (model == null) return;
-        this.address = new AddressDto();
-        this.address.setStreet(model.getStreet());
-        this.address.setCity(model.getCity());
-        this.address.setPostalCode(model.getPostalCode());
+    public void setAddress(AddressDto address) {
+        if (address == null) return;
+        this.address = address;
     }
 
     public UserDao getUser() {
