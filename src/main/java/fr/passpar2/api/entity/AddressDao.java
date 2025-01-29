@@ -11,6 +11,8 @@ public class AddressDao {
     private String id;
     @Field("id_customer")
     private int customerId;
+    @Field("id_user")
+    private int userId;
     private String country;
     private String street;
     private String city;
@@ -21,6 +23,7 @@ public class AddressDao {
     public AddressDao(AddressDto model) {
         this.id = model.getId();
         this.customerId = model.getCustomerId();
+        this.userId = model.getUserId();
         this.country = model.getCountry();
         this.street = model.getStreet();
         this.city = model.getCity();
@@ -41,6 +44,9 @@ public class AddressDao {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
+
+    public int getUserId() { return this.userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
     public String getCountry() { return this.country; }
     public void setCountry(String country) { this.country = country; }

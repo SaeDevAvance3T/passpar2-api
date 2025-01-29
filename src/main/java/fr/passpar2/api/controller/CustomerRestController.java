@@ -47,7 +47,7 @@ public class CustomerRestController {
 
 
         for (CustomerDao customer: customers) {
-            AddressDao addressCustomer = addressService.getAddressByIdCustomer(customer);
+            AddressDao addressCustomer = addressService.getAddressByCustomerId(customer.getId());
 
             CustomerDto customerResult = new CustomerDto(customer);
             customerResult.setAddress(addressCustomer);

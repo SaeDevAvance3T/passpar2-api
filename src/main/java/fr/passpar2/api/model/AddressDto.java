@@ -7,6 +7,7 @@ import fr.passpar2.api.entity.AddressDao;
 public class AddressDto {
     private String id;
     private int customerId;
+    private int userId;
     private String country;
     private String street;
     private String city;
@@ -18,6 +19,7 @@ public class AddressDto {
     public AddressDto(AddressDao model) {
         this.id = model.getId();
         this.customerId = model.getCustomerId();
+        this.userId = model.getUserId();
         this.country = model.getCountry();
         this.street = model.getStreet();
         this.city = model.getCity();
@@ -40,6 +42,10 @@ public class AddressDto {
     public void setCustomerId(int idCustomer) {
         this.customerId = idCustomer;
     }
+
+    public int getUserId() { return this.userId; }
+
+    public void setUserId(int userId) { this.userId = userId; }
 
     public String getCountry() { return this.country; }
 

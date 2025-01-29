@@ -1,19 +1,22 @@
-package fr.passpar2.api.entity;
+package fr.passpar2.api.model;
 
-import jakarta.persistence.*;
+import fr.passpar2.api.entity.UserDao;
 
-import java.time.LocalDateTime;
-
-@Entity(name = "pp2_user")
-public class UserDao {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDto {
     private int id;
     private String firstName;
     private String lastName;
     private String email;
+    private AddressDto address;
     private String passwordHash;
+
+    public UserDto(UserDao model) {
+        this.id = model.getId();
+        this.firstName = model.getFirstName();
+        this.lastName = model.getLastName();
+        this.email = model.getEmail();
+        this.passwordHash = model.getPasswordHash();
+    }
 
     public int getId() {
         return id;
@@ -46,6 +49,10 @@ public class UserDao {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public AddressDto getAddress() { return this.address; }
+
+    public void setAddress(AddressDto address) { this.address = address; }
 
     public String getPasswordHash() {
         return passwordHash;

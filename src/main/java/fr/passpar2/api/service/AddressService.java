@@ -22,7 +22,11 @@ public class AddressService {
         return addressRepository.save(address);
     }
 
-    public AddressDao getAddressByIdCustomer(CustomerDao customer) {
-        return addressRepository.findAddressByIdCustomer(customer.getId());
+    public AddressDao getAddressByCustomerId(int id) {
+        return addressRepository.findAddressByCustomerId(id);
+    }
+
+    public AddressDao getAddressByUserId(int id) {
+        return addressRepository.findAddressByUserId(id);
     }
 }
