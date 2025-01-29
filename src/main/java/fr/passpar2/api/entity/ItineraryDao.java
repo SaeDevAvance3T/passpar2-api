@@ -17,6 +17,8 @@ public class ItineraryDao {
     private String name;
     private List<ItineraryPointDto> itinerary;
 
+    public ItineraryDto() { }
+
     public ItineraryDao(ItineraryDto model) {
         this.id = model.getId();
         this.userId = model.getUserId();
