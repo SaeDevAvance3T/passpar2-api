@@ -27,9 +27,9 @@ public class UserRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<ApiResponseDto<UserDao>> getUserByEmail(@PathVariable String email) {
-        ApiResponseDto<UserDao> response = new ApiResponseDto<>(userService.getUserByEmail(email), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<UserDao>> getUserByEmail(@PathVariable Integer id) {
+        ApiResponseDto<UserDao> response = new ApiResponseDto<>(userService.getUserById(id), HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
