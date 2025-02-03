@@ -49,6 +49,7 @@ public class UserRestController {
         AddressDto uptadedAddress = new AddressDto(addressService
                 .updateAddress(request.getAddress().getId(), request.getAddress()));
         updatedUser.setAddress(uptadedAddress);
+
         ApiResponseDto<UserDto> response = new ApiResponseDto<>(updatedUser, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

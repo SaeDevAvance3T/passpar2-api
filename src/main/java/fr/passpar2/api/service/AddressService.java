@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddressService {
@@ -37,22 +38,27 @@ public class AddressService {
     }
 
     public AddressDao updateAddress(String id, AddressDto updatedAddress) {
-        Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update();
+        Optional<AddressDao> existingAddressOpt = addressRepository.findById(id);
 
-        if (updatedAddress.getStreet() != null) {
-            update.set("street", updatedAddress.getStreet());
-        }
-        if (updatedAddress.getCity() != null) {
-            update.set("city", updatedAddress.getCity());
-        }
-        if (updatedAddress.getPostalCode() != null) {
-            update.set("postalCode", updatedAddress.getPostalCode());
-        }
-        if (updatedAddress.getCountry() != null) {
-            update.set("country", updatedAddress.getCountry());
+        if (existingAddressOpt.isPresent()) {
+            AddressDao existingAddress = existingAddressOpt.get();
+
+            if (updatedAddress.getStreet() != null) {
+                existingAddress.setStreet(updatedAddress.getStreet());
+            }
+            if (updatedAddress.getCity() != null) {
+                existingAddress.setCity(updatedAddress.getCity());
+            }
+            if (updatedAddress.getPostalCode() != null) {
+                existingAddress.setPostalCode(updatedAddress.getPostalCode());
+            }
+            if (updatedAddress.getCountry() != null) {
+                existingAddress.setCountry(updatedAddress.getCountry());
+            }
+
+            return addressRepository.save(existingAddress);
         }
 
-        return mongoTemplate.findAndModify(query, update, AddressDao.class);
+        return null;
     }
 }
