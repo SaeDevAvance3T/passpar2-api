@@ -1,7 +1,9 @@
 package fr.passpar2.api.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import fr.passpar2.api.entity.UserDao;
 
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class UserDto {
     private int id;
     private String firstName;
