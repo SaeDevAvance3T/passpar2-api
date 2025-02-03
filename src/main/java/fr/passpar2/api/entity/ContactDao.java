@@ -1,9 +1,8 @@
 package fr.passpar2.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity(name = "pp2_contact")
 public class ContactDao {
@@ -15,6 +14,8 @@ public class ContactDao {
     private String firstName;
     private String lastName;
     private String phone;
+    @ManyToMany(mappedBy = "contacts")
+    private List<CustomerDao> customers;
 
     public int getId() {
         return id;
@@ -47,4 +48,8 @@ public class ContactDao {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public List<CustomerDao> getCustomers() { return this.customers; }
+
+    public void setCustomers(List<CustomerDao> customers) { this.customers = customers; }
 }
