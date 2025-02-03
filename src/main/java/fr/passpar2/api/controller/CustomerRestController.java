@@ -92,6 +92,10 @@ public class CustomerRestController {
         CustomerDao customerToDelete = customerService.getCustomerById(id);
         AddressDao addressToDelete = addressService.getAddressByCustomerId(customerToDelete.getId());
 
+        for(ContactDao contactToDelete: customerToDelete.getContacts()) {
+            contactService.deleteContactById(contactToDelete.getId());
+        }
+
         customerService.deleteCustomerById(customerToDelete.getId());
         addressService.deleteAddressById(addressToDelete.getId());
 
