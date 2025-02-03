@@ -5,7 +5,6 @@ import fr.passpar2.api.entity.UserDao;
 import fr.passpar2.api.model.*;
 import fr.passpar2.api.service.AddressService;
 import fr.passpar2.api.service.UserService;
-import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +38,7 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponseDto<UserDto>> registerUser(@RequestBody RegisterRequestDto request) {
+    public ResponseEntity<ApiResponseDto<UserDto>> registerUser(@RequestBody UserRequestDto request) {
         UserDao userRegister = userService.registerUser(
                 request.getFirstName(),
                 request.getLastName(),

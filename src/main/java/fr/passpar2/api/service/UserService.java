@@ -1,5 +1,7 @@
 package fr.passpar2.api.service;
 
+import fr.passpar2.api.model.UserDto;
+import fr.passpar2.api.model.UserRequestDto;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,9 +55,6 @@ public class UserService {
         if (userRepository.existsByEmail(email))
             throw new IllegalArgumentException("Un utilisateur avec cet email existe déjà.");
 
-        // if (address == null)
-        //     throw new IllegalArgumentException("L'adresse ne peut pas être nulle.");
-
         UserDao newUser = new UserDao();
         newUser.setFirstName(firstName);
         newUser.setLastName(lastName);
@@ -65,6 +64,26 @@ public class UserService {
         newUser.setPasswordHash(hashedPassword);
 
         return userRepository.save(newUser);
+    }
+
+    public UserDao updateUserById(Integer id, UserRequestDto user) {
+        UserDao existingUser = getUserById(id);
+
+        if (user.getFirstName() != null && !user.getFirstName().isEmpty())
+            existingUser.setFirstName(user.getFirstName());
+
+        if (user.getLastName() != null && !user.getLastName().isEmpty())
+            existingUser.setLastName(user.getLastName());
+
+        if (user.getEmail() != null && !user.getEmail().isEmpty())
+            existingUser.setEmail(user.getEmail());
+
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            String hashedPassword = hashPassword(user.getPassword());
+            existingUser.setPasswordHash(hashedPassword);
+        }
+
+        return userRepository.save(existingUser);
     }
 
     private String hashPassword(String password) {

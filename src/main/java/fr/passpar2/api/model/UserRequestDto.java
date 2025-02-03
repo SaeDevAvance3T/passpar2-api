@@ -1,6 +1,6 @@
 package fr.passpar2.api.model;
 
-public class RegisterRequestDto {
+public class UserRequestDto {
     private String firstName;
     private String lastName;
     private String email;

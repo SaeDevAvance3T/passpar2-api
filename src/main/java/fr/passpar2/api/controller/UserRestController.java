@@ -1,14 +1,15 @@
 package fr.passpar2.api.controller;
 
 import fr.passpar2.api.entity.UserDao;
+import fr.passpar2.api.model.AddressDto;
 import fr.passpar2.api.model.ApiResponseDto;
+import fr.passpar2.api.model.UserDto;
+import fr.passpar2.api.model.UserRequestDto;
+import fr.passpar2.api.service.AddressService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import fr.passpar2.api.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -16,9 +17,14 @@ import java.util.List;
 public class UserRestController {
 
     private final UserService userService;
+    private final AddressService addressService;
 
-    public UserRestController(UserService userService) {
+    public UserRestController(
+            UserService userService,
+            AddressService addressService
+    ) {
         this.userService = userService;
+        this.addressService = addressService;
     }
 
     @GetMapping()
@@ -28,8 +34,19 @@ public class UserRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponseDto<UserDao>> getUserByEmail(@PathVariable Integer id) {
-        ApiResponseDto<UserDao> response = new ApiResponseDto<>(userService.getUserById(id), HttpStatus.OK);
+    public ResponseEntity<ApiResponseDto<UserDto>> getUserById(@PathVariable Integer id) {
+        UserDto user = new UserDto(userService.getUserById(id));
+        user.setAddress(new AddressDto(addressService.getAddressByUserId(user.getId())));
+
+        ApiResponseDto<UserDto> response = new ApiResponseDto<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<UserDto>> putUserById(
+            @PathVariable Integer id, @RequestBody UserRequestDto request) {
+        UserDto updatedUser = new UserDto(userService.updateUserById(id, request));
+        ApiResponseDto<UserDto> response = new ApiResponseDto<>(updatedUser, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
