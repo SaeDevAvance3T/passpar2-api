@@ -43,18 +43,16 @@ public class AddressService {
         if (existingAddressOpt.isPresent()) {
             AddressDao existingAddress = existingAddressOpt.get();
 
-            if (updatedAddress.getStreet() != null) {
+            if (updatedAddress.getStreet() != null)
                 existingAddress.setStreet(updatedAddress.getStreet());
-            }
-            if (updatedAddress.getCity() != null) {
+            if (updatedAddress.getCity() != null)
                 existingAddress.setCity(updatedAddress.getCity());
-            }
-            if (updatedAddress.getPostalCode() != null) {
+            if (updatedAddress.getPostalCode() != null)
                 existingAddress.setPostalCode(updatedAddress.getPostalCode());
-            }
-            if (updatedAddress.getCountry() != null) {
+            if (updatedAddress.getCountry() != null)
                 existingAddress.setCountry(updatedAddress.getCountry());
-            }
+            if (updatedAddress.getSupplement() != null)
+                existingAddress.setSupplement(updatedAddress.getSupplement());
 
             return addressRepository.save(existingAddress);
         }
