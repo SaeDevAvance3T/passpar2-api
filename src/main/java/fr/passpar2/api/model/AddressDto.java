@@ -67,7 +67,6 @@ public class AddressDto {
         this.city = city;
     }
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Integer getPostalCode() {
         return postalCode;
     }
