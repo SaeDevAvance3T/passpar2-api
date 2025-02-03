@@ -2,12 +2,11 @@ package fr.passpar2.api.service;
 
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
-import fr.passpar2.api.entity.UserDao;
-import fr.passpar2.api.repository.IAddressRepository;
 import fr.passpar2.api.repository.ICustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -46,5 +45,17 @@ public class CustomerService {
 
     public List<CustomerDao> getAllCustomers() {
         return customerRepository.findAll();
+    }
+
+    public CustomerDao getCustomerById(int id) {
+        Optional<CustomerDao> customerOpt = customerRepository.findById(id);
+
+        return customerOpt.orElseThrow(() ->
+                new RuntimeException("Client introuvable")
+        );
+    }
+
+    public void deleteCustomerById(int id) {
+        customerRepository.deleteById(id);
     }
 }

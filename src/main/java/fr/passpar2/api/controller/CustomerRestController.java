@@ -86,4 +86,15 @@ public class CustomerRestController {
         ApiResponseDto<CustomerDto> response = new ApiResponseDto<>(customer, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteCustomer(@PathVariable Integer id ) {
+        CustomerDao customerToDelete = customerService.getCustomerById(id);
+        AddressDao addressToDelete = addressService.getAddressByCustomerId(customerToDelete.getId());
+
+        customerService.deleteCustomerById(customerToDelete.getId());
+        addressService.deleteAddressById(addressToDelete.getId());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
