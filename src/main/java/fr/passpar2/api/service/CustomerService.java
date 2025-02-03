@@ -55,7 +55,7 @@ public class CustomerService {
         );
     }
 
-    public void deleteCustomerById(int id) {
-        customerRepository.deleteById(id);
+    public void deleteCustomer(CustomerDao customer) {
+        customerRepository.delete(customer);
     }
 }

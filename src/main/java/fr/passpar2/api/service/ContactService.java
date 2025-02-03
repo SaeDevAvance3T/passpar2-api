@@ -17,7 +17,7 @@ public class ContactService {
         return contactRepository.save(contact);
     }
 
-    public void deleteContactById(int id) {
-        contactRepository.deleteById(id);
+    public void deleteContact(ContactDao contact) {
+        contactRepository.delete(contact);
     }
 }

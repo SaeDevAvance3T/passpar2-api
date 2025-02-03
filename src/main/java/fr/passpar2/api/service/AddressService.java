@@ -60,7 +60,7 @@ public class AddressService {
         return null;
     }
 
-    public void deleteAddressById(String id) {
-        addressRepository.deleteById(id);
+    public void deleteAddress(AddressDao address) {
+        addressRepository.delete(address);
     }
 }
