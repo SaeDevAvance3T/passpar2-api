@@ -46,6 +46,9 @@ public class UserRestController {
     public ResponseEntity<ApiResponseDto<UserDto>> putUserById(
             @PathVariable Integer id, @RequestBody UserRequestDto request) {
         UserDto updatedUser = new UserDto(userService.updateUserById(id, request));
+        AddressDto uptadedAddress = new AddressDto(addressService
+                .updateAddress(request.getAddress().getId(), request.getAddress()));
+        updatedUser.setAddress(uptadedAddress);
         ApiResponseDto<UserDto> response = new ApiResponseDto<>(updatedUser, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -11,7 +11,7 @@ public class AddressDto {
     private String country;
     private String street;
     private String city;
-    private int postalCode;
+    private Integer postalCode;
     private String supplement;
 
     public AddressDto() { }
@@ -67,11 +67,11 @@ public class AddressDto {
         this.city = city;
     }
 
-    public int getPostalCode() {
+    public Integer getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(Integer postalCode) {
         this.postalCode = postalCode;
     }
 

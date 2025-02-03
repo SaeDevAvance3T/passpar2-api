@@ -17,7 +17,7 @@ public class AddressDao {
     private String street;
     private String city;
     @Field("postal_code")
-    private int postalCode;
+    private Integer postalCode;
     private String supplement;
 
     public AddressDao() {}
@@ -67,10 +67,10 @@ public class AddressDao {
         this.city = city;
     }
 
-    public int getPostalCode() {
+    public Integer getPostalCode() {
         return postalCode;
     }
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(Integer postalCode) {
         this.postalCode = postalCode;
     }
 
