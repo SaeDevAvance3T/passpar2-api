@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity
-@Table(name = "pp2_customer")
+
+@Entity(name = "pp2_customer")
 public class CustomerDao {
 
     @Id
