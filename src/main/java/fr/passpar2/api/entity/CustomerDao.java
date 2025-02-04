@@ -19,7 +19,8 @@ public class CustomerDao {
     @JoinColumn(name = "fk_user")
     private UserDao user;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    // @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(
             name = "pp2_customer_contact",
             joinColumns = @JoinColumn(name = "fk_customer"),
