@@ -33,10 +33,10 @@ public class ContactRestController {
         List<ContactDto> contactsResult = new ArrayList<ContactDto>();
         List<ContactDao> contacts;
 
-        if (customer != null)
-            contacts = contactService.getContactsByCustomerId(customer);
-        else
-            contacts = contactService.getAllContacts();
+        // if (customer != null)
+            // contacts = contactService.getContactsByCustomerId(customer);
+        // else
+        contacts = contactService.getAllContacts();
 
         for (ContactDao contact: contacts) {
             contactsResult.add(new ContactDto(contact));

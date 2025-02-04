@@ -12,6 +12,4 @@ import java.util.List;
 @Repository
 public interface IContactRepository extends JpaRepository<ContactDao, Integer> {
 
-    @Query("SELECT c FROM ContactDao c JOIN CustomerContactDao cc ON c.id = cc.contact.id WHERE cc.customer.id = :customer")
-    List<ContactDao> findAllByCustomerId(@Param("customer") int customer);
 }
