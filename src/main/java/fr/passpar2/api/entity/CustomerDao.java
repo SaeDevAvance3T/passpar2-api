@@ -1,11 +1,11 @@
 package fr.passpar2.api.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Null;
 
 import java.util.List;
 
-@Entity(name = "pp2_customer")
+@Entity
+@Table(name = "pp2_customer")
 public class CustomerDao {
 
     @Id
@@ -19,7 +19,7 @@ public class CustomerDao {
     @JoinColumn(name = "fk_user")
     private UserDao user;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "pp2_customer_contact",
             joinColumns = @JoinColumn(name = "fk_customer"),
@@ -74,4 +74,6 @@ public class CustomerDao {
     public void removeContact(ContactDao contact) {
         this.contacts.remove(contact);
     }
+
+    public void removeAllContacts() { this.contacts.clear(); }
 }

@@ -72,4 +72,8 @@ public class CustomerService {
     public void deleteCustomer(CustomerDao customer) {
         customerRepository.delete(customer);
     }
+
+    public void saveCustomer(CustomerDao customer) {
+        customerRepository.save(customer);
+    }
 }
