@@ -38,6 +38,10 @@ public class ContactRestController {
         else
             contacts = contactService.getAllContacts();
 
+        for (ContactDao contact: contacts) {
+            contactsResult.add(new ContactDto(contact));
+        }
+
         ApiResponseDto<List<ContactDto>> response = new ApiResponseDto<>(contactsResult, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
