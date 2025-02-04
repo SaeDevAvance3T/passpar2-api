@@ -2,6 +2,8 @@ package fr.passpar2.api.service;
 
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
+import fr.passpar2.api.model.CustomerDto;
+import fr.passpar2.api.model.CustomerRequestDto;
 import fr.passpar2.api.repository.ICustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +55,18 @@ public class CustomerService {
         return customerOpt.orElseThrow(() ->
                 new RuntimeException("Client introuvable")
         );
+    }
+
+    public CustomerDao updateCustomerById(int id, CustomerRequestDto customer) {
+        CustomerDao existingCustomer = getCustomerById(id);
+
+        if (customer.getName() != null && !customer.getName().isEmpty())
+            existingCustomer.setName(customer.getName());
+
+        if (customer.getDescription() != null && !customer.getDescription().isEmpty())
+            existingCustomer.setDescription(customer.getDescription());
+
+        return customerRepository.save(existingCustomer);
     }
 
     public void deleteCustomer(CustomerDao customer) {

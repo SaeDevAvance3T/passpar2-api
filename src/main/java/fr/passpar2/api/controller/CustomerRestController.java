@@ -4,10 +4,7 @@ import fr.passpar2.api.entity.AddressDao;
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.UserDao;
-import fr.passpar2.api.model.AddressDto;
-import fr.passpar2.api.model.ApiResponseDto;
-import fr.passpar2.api.model.CustomerDto;
-import fr.passpar2.api.model.CustomerRequestDto;
+import fr.passpar2.api.model.*;
 import fr.passpar2.api.service.AddressService;
 import fr.passpar2.api.service.ContactService;
 import fr.passpar2.api.service.CustomerService;
@@ -87,8 +84,19 @@ public class CustomerRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<CustomerDto>> uptdateCustomerById(@PathVariable Integer id, @RequestBody CustomerRequestDto request) {
+        CustomerDto updatedCustomer = new CustomerDto(customerService.updateCustomerById(id, request));
+        AddressDto updatedAddress = new AddressDto(addressService
+                .updateAddress(request.getAddress().getId(), request.getAddress()));
+        updatedCustomer.setAddress(updatedAddress);
+
+        ApiResponseDto<CustomerDto> response = new ApiResponseDto<>(updatedCustomer, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCustomer(@PathVariable Integer id ) {
+    public ResponseEntity deleteCustomerById(@PathVariable Integer id) {
         CustomerDao customerToDelete = customerService.getCustomerById(id);
         AddressDao addressToDelete = addressService.getAddressByCustomerId(customerToDelete.getId());
 
