@@ -100,9 +100,10 @@ public class CustomerRestController {
         CustomerDao customerToDelete = customerService.getCustomerById(id);
         AddressDao addressToDelete = addressService.getAddressByCustomerId(customerToDelete.getId());
 
+        /*
         for(ContactDao contactToDelete: customerToDelete.getContacts()) {
             contactService.deleteContact(contactToDelete);
-        }
+        }*/
 
         customerService.deleteCustomer(customerToDelete);
         addressService.deleteAddress(addressToDelete);
