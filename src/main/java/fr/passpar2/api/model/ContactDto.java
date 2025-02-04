@@ -1,20 +1,23 @@
-package fr.passpar2.api.entity;
+package fr.passpar2.api.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import fr.passpar2.api.entity.ContactDao;
 
-import java.util.List;
-
-@Entity
-@Table(name = "pp2_contact")
-public class ContactDao {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+public class ContactDto {
     private int id;
-
     private String firstName;
     private String lastName;
     private String phone;
+
+    public ContactDto() { }
+
+    public ContactDto(ContactDao model) {
+        id = model.getId();
+        firstName = model.getFirstName();
+        lastName = model.getLastName();
+        phone = model.getPhone();
+    }
 
     public int getId() {
         return id;
