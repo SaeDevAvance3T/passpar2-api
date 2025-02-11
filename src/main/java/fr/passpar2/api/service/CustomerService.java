@@ -73,6 +73,10 @@ public class CustomerService {
         customerRepository.delete(customer);
     }
 
+    public List<CustomerDao> getCustomersByContact(ContactDao contact) {
+        return customerRepository.findByContactsContaining(contact);
+    }
+
     public void saveCustomer(CustomerDao customer) {
         customerRepository.save(customer);
     }

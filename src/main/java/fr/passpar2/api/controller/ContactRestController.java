@@ -69,4 +69,20 @@ public class ContactRestController {
         ApiResponseDto<ContactDto> response = new ApiResponseDto<>(contact, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<String>> deleteContactById(@PathVariable Integer id) {
+        ContactDao contactToDelete = contactService.getContactById(id);
+
+        List<CustomerDao> customers = customerService.getCustomersByContact(contactToDelete);
+        for (CustomerDao customer : customers) {
+            customer.removeContacts(contactToDelete);
+            customerService.saveCustomer(customer);
+        }
+
+        contactService.deleteContact(contactToDelete);
+
+        ApiResponseDto<String> response = new ApiResponseDto<>("Contact deleted successfully", HttpStatus.OK);
+        return ResponseEntity.ok(response);
+    }
 }
