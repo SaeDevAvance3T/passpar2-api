@@ -23,6 +23,10 @@ public class ContactService {
         return contactRepository.findAll();
     }
 
+    public ContactDao getContactById(int id) {
+        return contactRepository.getById(id);
+    }
+
     public void deleteContact(ContactDao contact) {
         contactRepository.delete(contact);
     }

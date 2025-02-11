@@ -10,10 +10,7 @@ import fr.passpar2.api.model.CustomerDto;
 import fr.passpar2.api.service.ContactService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +40,13 @@ public class ContactRestController {
         }
 
         ApiResponseDto<List<ContactDto>> response = new ApiResponseDto<>(contactsResult, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<ContactDto>> getCustomerById(@PathVariable Integer id) {
+        ContactDto contact = new ContactDto(contactService.getContactById(id));
+        ApiResponseDto<ContactDto> response = new ApiResponseDto<>(contact, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -84,6 +84,13 @@ public class CustomerRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<CustomerDto>> getCustomerById(@PathVariable Integer id) {
+        CustomerDto customer = new CustomerDto(customerService.getCustomerById(id));
+        ApiResponseDto<CustomerDto> response = new ApiResponseDto<>(customer, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponseDto<CustomerDto>> uptdateCustomerById(@PathVariable Integer id, @RequestBody CustomerRequestDto request) {
         CustomerDto updatedCustomer = new CustomerDto(customerService.updateCustomerById(id, request));
@@ -100,8 +107,13 @@ public class CustomerRestController {
         CustomerDao customerToDelete = customerService.getCustomerById(id);
         AddressDao addressToDelete = addressService.getAddressByCustomerId(customerToDelete.getId());
 
+        List<ContactDao> contactsToDelete = customerToDelete.getContacts();
+
         customerService.deleteCustomer(customerToDelete);
         addressService.deleteAddress(addressToDelete);
+        for (ContactDao contactToDelete : contactsToDelete) {
+            contactService.deleteContact(contactToDelete);
+        }
 
         return ResponseEntity.ok().build();
     }

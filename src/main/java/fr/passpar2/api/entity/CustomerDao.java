@@ -2,12 +2,13 @@ package fr.passpar2.api.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity(name = "pp2_customer")
-public class CustomerDao {
+public class CustomerDao implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
