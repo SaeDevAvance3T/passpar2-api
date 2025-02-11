@@ -2,6 +2,7 @@ package fr.passpar2.api.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,14 +20,13 @@ public class CustomerDao {
     @JoinColumn(name = "fk_user")
     private UserDao user;
 
-    // @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "pp2_customer_contact",
             joinColumns = @JoinColumn(name = "fk_customer"),
             inverseJoinColumns = @JoinColumn(name = "fk_contact")
     )
-    private List<ContactDao> contacts;
+    private List<ContactDao> contacts = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -72,7 +72,7 @@ public class CustomerDao {
         this.contacts = contacts;
     }
 
-    public void removeContact(ContactDao contact) {
+    public void removeContacts(ContactDao contact) {
         this.contacts.remove(contact);
     }
 
