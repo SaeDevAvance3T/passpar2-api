@@ -56,7 +56,7 @@ public class ContactRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponseDto<ContactDto>> updateContactById(@PathVariable Integer id, @RequestBody ContactRequestDto request) {
         ContactDao contactToUpdate = contactService.getContactById(id);
         contactToUpdate.setFirstName(request.getFirstName());
