@@ -45,6 +45,9 @@ public class ItineraryRestController {
 
     @PostMapping()
     public ResponseEntity<ApiResponseDto<ItineraryDto>> addItinerary(@RequestBody ItineraryRequestDto request) {
+        if (request.getItinerary().size() > 8)
+            return new ResponseEntity<>(new ApiResponseDto<>(null, null), HttpStatus.CREATED);
+
         ItineraryDto itinerary = new ItineraryDto();
         itinerary.setName(request.getName());
         itinerary.setUserId(request.getUserId());
