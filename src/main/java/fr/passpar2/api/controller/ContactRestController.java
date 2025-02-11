@@ -8,6 +8,7 @@ import fr.passpar2.api.model.ApiResponseDto;
 import fr.passpar2.api.model.ContactDto;
 import fr.passpar2.api.model.CustomerDto;
 import fr.passpar2.api.service.ContactService;
+import fr.passpar2.api.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,14 @@ public class ContactRestController {
 
     private final ContactService contactService;
 
-    public ContactRestController(ContactService contactService) {
+    private final CustomerService customerService;
+
+    public ContactRestController(
+            ContactService contactService,
+            CustomerService customerService
+    ) {
         this.contactService = contactService;
+        this.customerService = customerService;
     }
 
     @GetMapping()
@@ -30,9 +37,11 @@ public class ContactRestController {
         List<ContactDto> contactsResult = new ArrayList<ContactDto>();
         List<ContactDao> contacts;
 
-        // if (customer != null)
-            // contacts = contactService.getContactsByCustomerId(customer);
-        // else
+        if (customer != null) {
+            CustomerDao customerToAnalize = customerService.getCustomerById(customer);
+            contacts = customerToAnalize.getContacts();
+        }
+        else
         contacts = contactService.getAllContacts();
 
         for (ContactDao contact: contacts) {
