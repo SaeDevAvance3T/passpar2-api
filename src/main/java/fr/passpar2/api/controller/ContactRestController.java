@@ -56,20 +56,6 @@ public class ContactRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteContactById(@PathVariable Integer id) {
-        ContactDao contactToDelete = contactService.getContactById(id);
-        List<CustomerDao> customersContact = contactToDelete.getCustomers();
-
-        for (CustomerDao customerContact : customersContact) {
-            customerContact.removeContacts(contactToDelete);
-        }
-
-        contactService.deleteContact(contactToDelete);
-
-        return ResponseEntity.ok().build();
-    }
-
     @PutMapping("/id")
     public ResponseEntity<ApiResponseDto<ContactDto>> updateContactById(@PathVariable Integer id, @RequestBody ContactRequestDto request) {
         ContactDao contactToUpdate = contactService.getContactById(id);

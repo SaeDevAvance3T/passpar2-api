@@ -121,4 +121,13 @@ public class CustomerRestController {
 
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{id}/contacts/{contact}")
+    public ResponseEntity deleteCustomerContactById(@PathVariable Integer id, @PathVariable Integer contact) {
+        CustomerDao customerToDelete = customerService.getCustomerById(id);
+        ContactDao contactToDelete = contactService.getContactById(id);
+        customerToDelete.removeContacts(contactToDelete);
+
+        return ResponseEntity.ok().build();
+    }
 }
