@@ -42,7 +42,7 @@ public class ContactRestController {
             contacts = customerToAnalize.getContacts();
         }
         else
-        contacts = contactService.getAllContacts();
+            contacts = contactService.getAllContacts();
 
         for (ContactDao contact: contacts) {
             contactsResult.add(new ContactDto(contact));
