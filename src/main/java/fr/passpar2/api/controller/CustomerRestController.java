@@ -61,9 +61,13 @@ public class CustomerRestController {
 
     @PostMapping()
     public ResponseEntity<ApiResponseDto<CustomerDto>> addCustomer(@RequestBody CustomerRequestDto request) {
-        List<ContactDao> savedContacts = new ArrayList<ContactDao>();
-        for (ContactDao contact : request.getContacts()) {
-            savedContacts.add(contactService.createContact(contact));
+        List<ContactDao> savedContacts = new ArrayList<>();
+        for (ContactRequestDto contact : request.getContacts()) {
+            savedContacts.add(contactService.createContact(
+                    contact.getFirstName(),
+                    contact.getLastName(),
+                    contact.getPhone()
+            ));
         }
 
         CustomerDao newCustomer = customerService.createCustomer(

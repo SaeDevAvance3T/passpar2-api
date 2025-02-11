@@ -12,10 +12,11 @@ public class ContactDao implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String firstName;
     private String lastName;
     private String phone;
+    @ManyToMany(mappedBy="contacts")
+    private List<CustomerDao> customers ;
 
     public int getId() {
         return id;
@@ -48,4 +49,11 @@ public class ContactDao implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public List<CustomerDao> getCustomers() { return this.customers; }
+
+    public void setCustomers(List<CustomerDao> customers) { this.customers = customers; }
+
+    public void addCustomers(CustomerDao customer) { this.customers.add(customer); }
+    public void removeCustomers(CustomerDao customer) { this.customers.remove(customer); }
 }

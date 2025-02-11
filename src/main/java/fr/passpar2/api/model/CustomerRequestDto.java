@@ -8,7 +8,7 @@ public class CustomerRequestDto {
     private String name;
     private String description;
     private int userId;
-    private List<ContactDao> contacts;
+    private List<ContactRequestDto> contacts;
     private AddressDto address;
 
     public String getName() {
@@ -28,13 +28,13 @@ public class CustomerRequestDto {
     public int getUserId() { return this.userId; }
     public void setUserId(int userId) { this.userId = userId; }
 
-    public List<ContactDao> getContacts() { return this.contacts; }
+    public List<ContactRequestDto> getContacts() { return this.contacts; }
 
-    public void setContacts(List<ContactDao> contacts) {
+    public void setContacts(List<ContactRequestDto> contacts) {
         this.contacts = contacts;
     }
 
-    public void addContact(ContactDao contact) {
+    public void addContact(ContactRequestDto contact) {
         this.contacts.add(contact);
     }
 

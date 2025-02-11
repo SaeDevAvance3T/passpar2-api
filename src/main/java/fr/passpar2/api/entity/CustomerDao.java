@@ -73,8 +73,13 @@ public class CustomerDao implements Serializable {
         this.contacts = contacts;
     }
 
+    public void addContacts(ContactDao contact) {
+        this.contacts.add(contact);
+        contact.addCustomers(this);
+    }
     public void removeContacts(ContactDao contact) {
         this.contacts.remove(contact);
+        contact.removeCustomers(this);
     }
 
     public void removeAllContacts() { this.contacts.clear(); }

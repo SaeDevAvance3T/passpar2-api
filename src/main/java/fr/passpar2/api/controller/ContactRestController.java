@@ -3,10 +3,7 @@ package fr.passpar2.api.controller;
 import fr.passpar2.api.entity.AddressDao;
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
-import fr.passpar2.api.model.AddressDto;
-import fr.passpar2.api.model.ApiResponseDto;
-import fr.passpar2.api.model.ContactDto;
-import fr.passpar2.api.model.CustomerDto;
+import fr.passpar2.api.model.*;
 import fr.passpar2.api.service.ContactService;
 import fr.passpar2.api.service.CustomerService;
 import org.springframework.http.HttpStatus;
@@ -55,6 +52,34 @@ public class ContactRestController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponseDto<ContactDto>> getCustomerById(@PathVariable Integer id) {
         ContactDto contact = new ContactDto(contactService.getContactById(id));
+        ApiResponseDto<ContactDto> response = new ApiResponseDto<>(contact, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteContactById(@PathVariable Integer id) {
+        ContactDao contactToDelete = contactService.getContactById(id);
+        List<CustomerDao> customersContact = contactToDelete.getCustomers();
+
+        for (CustomerDao customerContact : customersContact) {
+            customerContact.removeContacts(contactToDelete);
+        }
+
+        contactService.deleteContact(contactToDelete);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/id")
+    public ResponseEntity<ApiResponseDto<ContactDto>> updateContactById(@PathVariable Integer id, @RequestBody ContactRequestDto request) {
+        ContactDao contactToUpdate = contactService.getContactById(id);
+        contactToUpdate.setFirstName(request.getFirstName());
+        contactToUpdate.setLastName(request.getLastName());
+        contactToUpdate.setPhone(request.getPhone());
+
+        contactService.saveContact(contactToUpdate);
+
+        ContactDto contact = new ContactDto(contactToUpdate);
         ApiResponseDto<ContactDto> response = new ApiResponseDto<>(contact, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
