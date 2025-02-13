@@ -73,6 +73,7 @@ public class CustomerRestController {
         CustomerDao newCustomer = customerService.createCustomer(
                 request.getName(),
                 request.getDescription(),
+                request.getIsProspect(),
                 savedContacts,
                 request.getUserId()
         );

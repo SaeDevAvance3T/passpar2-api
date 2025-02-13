@@ -31,7 +31,7 @@ public class CustomerService {
         return customerRepository.findAllByUserId(id);
     }
 
-    public CustomerDao createCustomer(String name, String description, List<ContactDao> contacts, int userId) {
+    public CustomerDao createCustomer(String name, String description, Boolean isProspect, List<ContactDao> contacts, int userId) {
         if (contacts == null || contacts.isEmpty()) {
             throw new IllegalArgumentException("Un contact doit être renseigné.");
         }
@@ -39,6 +39,7 @@ public class CustomerService {
         CustomerDao newCustomer = new CustomerDao();
         newCustomer.setName(name);
         newCustomer.setDescription(description);
+        newCustomer.setIsProspect(isProspect);
         newCustomer.setContacts(contacts);
         newCustomer.setUser(userService.getUserById(userId));
 

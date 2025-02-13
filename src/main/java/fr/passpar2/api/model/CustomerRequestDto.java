@@ -8,6 +8,7 @@ public class CustomerRequestDto {
     private String name;
     private String description;
     private int userId;
+    private Boolean isProspect;
     private List<ContactRequestDto> contacts;
     private AddressDto address;
 
@@ -27,6 +28,9 @@ public class CustomerRequestDto {
 
     public int getUserId() { return this.userId; }
     public void setUserId(int userId) { this.userId = userId; }
+
+    public Boolean getIsProspect() { return this.isProspect; }
+    public void setIsProspect(Boolean isProspect) { this.isProspect = isProspect; }
 
     public List<ContactRequestDto> getContacts() { return this.contacts; }
 
