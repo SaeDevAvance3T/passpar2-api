@@ -57,7 +57,7 @@ public class CustomerService {
         );
     }
 
-    public CustomerDao updateCustomerById(int id, CustomerRequestDto customer) {
+    public CustomerDao updateCustomerById(int id, CustomerRequestDto    customer) {
         CustomerDao existingCustomer = getCustomerById(id);
 
         if (customer.getName() != null && !customer.getName().isEmpty())
