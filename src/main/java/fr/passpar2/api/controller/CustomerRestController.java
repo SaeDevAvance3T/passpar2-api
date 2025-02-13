@@ -115,9 +115,6 @@ public class CustomerRestController {
 
         customerService.deleteCustomer(customerToDelete);
         addressService.deleteAddress(addressToDelete);
-        for (ContactDao contactToDelete : contactsToDelete) {
-            contactService.deleteContact(contactToDelete);
-        }
 
         return ResponseEntity.ok().build();
     }
