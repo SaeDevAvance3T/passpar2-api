@@ -56,6 +56,14 @@ public class ContactRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/customer/{id}")
+    public ResponseEntity<ApiResponseDto<ContactDto>> createContactForCustomer(@PathVariable Integer id, @RequestBody ContactRequestDto request) {
+        ContactDto contact = new ContactDto(customerService.addContact(id, request));
+
+        ApiResponseDto<ContactDto> response = new ApiResponseDto<>(contact, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponseDto<ContactDto>> updateContactById(@PathVariable Integer id, @RequestBody ContactRequestDto request) {
         ContactDao contactToUpdate = contactService.getContactById(id);

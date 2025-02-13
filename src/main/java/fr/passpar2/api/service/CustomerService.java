@@ -2,6 +2,7 @@ package fr.passpar2.api.service;
 
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
+import fr.passpar2.api.model.ContactRequestDto;
 import fr.passpar2.api.model.CustomerDto;
 import fr.passpar2.api.model.CustomerRequestDto;
 import fr.passpar2.api.repository.ICustomerRepository;
@@ -76,6 +77,19 @@ public class CustomerService {
 
     public List<CustomerDao> getCustomersByContact(ContactDao contact) {
         return customerRepository.findByContactsContaining(contact);
+    }
+
+    public ContactDao addContact(Integer customerId, ContactRequestDto request) {
+        CustomerDao customer = getCustomerById(customerId);
+        ContactDao contact = new ContactDao();
+
+        contact.setFirstName(request.getFirstName());
+        contact.setLastName(request.getLastName());
+        contact.setPhone(request.getPhone());
+        customer.addContact(contact);
+
+        customerRepository.save(customer);
+        return contact;
     }
 
     public void saveCustomer(CustomerDao customer) {
