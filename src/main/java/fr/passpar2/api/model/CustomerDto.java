@@ -16,6 +16,7 @@ public class CustomerDto {
     private AddressDto address;
     private UserDao user;
     private List<ContactDao> contacts;
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     private Boolean isProspect;
 
     public CustomerDto() { }
