@@ -10,14 +10,12 @@ public class UserDto {
     private String lastName;
     private String email;
     private AddressDto address;
-    private String passwordHash;
 
     public UserDto(UserDao model) {
         this.id = model.getId();
         this.firstName = model.getFirstName();
         this.lastName = model.getLastName();
         this.email = model.getEmail();
-        this.passwordHash = model.getPasswordHash();
     }
 
     public int getId() {
@@ -55,12 +53,4 @@ public class UserDto {
     public AddressDto getAddress() { return this.address; }
 
     public void setAddress(AddressDto address) { this.address = address; }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
 }

@@ -91,6 +91,8 @@ public class CustomerRestController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponseDto<CustomerDto>> getCustomerById(@PathVariable Integer id) {
         CustomerDto customer = new CustomerDto(customerService.getCustomerById(id));
+        AddressDto address = new AddressDto(addressService.getAddressByCustomerId(customer.getId()));
+        customer.setAddress(address);
         ApiResponseDto<CustomerDto> response = new ApiResponseDto<>(customer, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
