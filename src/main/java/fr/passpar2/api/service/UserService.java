@@ -78,10 +78,8 @@ public class UserService {
         if (user.getEmail() != null && !user.getEmail().isEmpty())
             existingUser.setEmail(user.getEmail());
 
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            String hashedPassword = hashPassword(user.getPassword());
-            existingUser.setPasswordHash(hashedPassword);
-        }
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && user.getPassword() != existingUser.getPasswordHash())
+            existingUser.setPasswordHash(hashPassword(user.getPassword()));
 
         return userRepository.save(existingUser);
     }
