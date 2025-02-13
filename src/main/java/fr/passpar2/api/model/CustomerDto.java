@@ -16,6 +16,7 @@ public class CustomerDto {
     private AddressDto address;
     private UserDao user;
     private List<ContactDao> contacts;
+    private boolean isProspect;
 
     public CustomerDto() { }
 
@@ -25,6 +26,7 @@ public class CustomerDto {
         this.description = model.getDescription();
         this.user = model.getUser();
         this.contacts = model.getContacts();
+        this.isProspect = model.getIsProspect();
     }
 
     public int getId() {
@@ -75,4 +77,8 @@ public class CustomerDto {
     public void setContacts(List<ContactDao> contacts) {
         this.contacts = contacts;
     }
+
+    public boolean getIsProspect() { return this.isProspect; }
+
+    public void setIsProspect(boolean isProspect) { this.isProspect = isProspect; }
 }

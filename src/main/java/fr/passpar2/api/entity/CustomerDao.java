@@ -16,6 +16,8 @@ public class CustomerDao implements Serializable {
 
     private String name;
     private String description;
+    @Column(name = "is_prospect")
+    private boolean isProspect;
 
     @ManyToOne
     @JoinColumn(name = "fk_user")
@@ -81,4 +83,8 @@ public class CustomerDao implements Serializable {
     }
 
     public void removeAllContacts() { this.contacts.clear(); }
+
+    public boolean getIsProspect() { return this.isProspect; }
+
+    public void setIsProspect(boolean isProspect) { this.isProspect = isProspect; }
 }
