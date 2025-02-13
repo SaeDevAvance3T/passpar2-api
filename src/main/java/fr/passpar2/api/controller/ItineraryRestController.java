@@ -1,5 +1,8 @@
 package fr.passpar2.api.controller;
 
+import fr.passpar2.api.entity.AddressDao;
+import fr.passpar2.api.entity.ContactDao;
+import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.ItineraryDao;
 import fr.passpar2.api.model.ApiResponseDto;
 import fr.passpar2.api.model.ItineraryDto;
@@ -64,5 +67,13 @@ public class ItineraryRestController {
 
         ApiResponseDto<ItineraryDto> response = new ApiResponseDto<>(new ItineraryDto(itineraryCreated), HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteItineraryById(@PathVariable String id) {
+        ItineraryDao itineraryToDelete = itineraryService.getItineraryById(id);
+        itineraryService.deleteItinerary(itineraryToDelete);
+
+        return ResponseEntity.ok().build();
     }
 }
