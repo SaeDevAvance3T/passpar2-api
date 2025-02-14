@@ -4,10 +4,7 @@ import fr.passpar2.api.entity.AddressDao;
 import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.ItineraryDao;
-import fr.passpar2.api.model.ApiResponseDto;
-import fr.passpar2.api.model.ItineraryDto;
-import fr.passpar2.api.model.ItineraryPointDto;
-import fr.passpar2.api.model.ItineraryRequestDto;
+import fr.passpar2.api.model.*;
 import fr.passpar2.api.service.ItineraryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,8 +71,17 @@ public class ItineraryRestController {
         ItineraryDao itinerary = itineraryService.getItineraryById(id);
         ItineraryDto itineraryResult = new ItineraryDto(itinerary);
 
-        ApiResponseDto<ItineraryDto> response = new ApiResponseDto<>(itineraryResult, HttpStatus.CREATED);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        ApiResponseDto<ItineraryDto> response = new ApiResponseDto<>(itineraryResult, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<ItineraryDto>> updateItineraryById(@PathVariable String id, @RequestBody ItineraryRequestDto request) {
+        ItineraryDao itinerary = itineraryService.updateItineraryById(id, request);
+        ItineraryDto itineraryResult = new ItineraryDto(itinerary);
+
+        ApiResponseDto<ItineraryDto> response = new ApiResponseDto<>(itineraryResult, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

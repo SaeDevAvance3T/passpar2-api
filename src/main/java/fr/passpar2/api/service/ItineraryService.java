@@ -3,9 +3,12 @@ package fr.passpar2.api.service;
 import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.ItineraryDao;
 import fr.passpar2.api.entity.UserDao;
+import fr.passpar2.api.model.ItineraryPointDto;
+import fr.passpar2.api.model.ItineraryRequestDto;
 import fr.passpar2.api.repository.IItineraryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +37,22 @@ public class ItineraryService {
         return itineraryOptional.orElseThrow(() ->
                 new RuntimeException("Itineraire introuvable")
         );
+    }
+
+    public ItineraryDao updateItineraryById(String id, ItineraryRequestDto request) {
+        return itineraryRepository.findById(id).map(itinerary -> {
+            itinerary.setName(request.getName());
+            itinerary.setUserId(request.getUserId());
+            itinerary.setItinerary(new ArrayList<>());
+            for (Integer customerId : request.getItinerary()) {
+                ItineraryPointDto itineraryPoint = new ItineraryPointDto();
+                itineraryPoint.setCustomerId(customerId);
+                itineraryPoint.isNotVisited();
+
+                itinerary.addItineraryPoint(itineraryPoint);
+            }
+            return itineraryRepository.save(itinerary);
+        }).orElseThrow(() -> new RuntimeException("Itineraire introuvable"));
     }
 
     public void deleteItinerary(ItineraryDao itinerary) {
