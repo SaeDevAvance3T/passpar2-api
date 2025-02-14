@@ -6,6 +6,7 @@ import fr.passpar2.api.entity.ContactDao;
 import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.UserDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -14,8 +15,8 @@ public class CustomerDto {
     private String name;
     private String description;
     private AddressDto address;
-    private UserDao user;
-    private List<ContactDao> contacts;
+    private UserDto user;
+    private List<ContactDto> contacts = new ArrayList<>();
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private Boolean isProspect;
 
@@ -25,8 +26,10 @@ public class CustomerDto {
         this.id = model.getId();
         this.name = model.getName();
         this.description = model.getDescription();
-        this.user = model.getUser();
-        this.contacts = model.getContacts();
+        this.user = new UserDto(model.getUser());
+        for(ContactDao contact: model.getContacts()) {
+            this.contacts.add(new ContactDto(contact));
+        }
         this.isProspect = model.getIsProspect();
     }
 
@@ -63,19 +66,19 @@ public class CustomerDto {
         this.address = address;
     }
 
-    public UserDao getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public void setUser(UserDao user) {
+    public void setUser(UserDto user) {
         this.user = user;
     }
 
-    public List<ContactDao> getContacts() {
+    public List<ContactDto> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<ContactDao> contacts) {
+    public void setContacts(List<ContactDto> contacts) {
         this.contacts = contacts;
     }
 
