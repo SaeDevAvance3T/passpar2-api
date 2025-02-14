@@ -26,7 +26,7 @@ public class CustomerDto {
         this.id = model.getId();
         this.name = model.getName();
         this.description = model.getDescription();
-        this.user = new UserDto(model.getUser());
+        this.user = model == null ? null : new UserDto(model.getUser());
         for(ContactDao contact: model.getContacts()) {
             this.contacts.add(new ContactDto(contact));
         }
