@@ -69,6 +69,15 @@ public class ItineraryRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponseDto<ItineraryDto>> getItineraryById(@PathVariable String id) {
+        ItineraryDao itinerary = itineraryService.getItineraryById(id);
+        ItineraryDto itineraryResult = new ItineraryDto(itinerary);
+
+        ApiResponseDto<ItineraryDto> response = new ApiResponseDto<>(itineraryResult, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteItineraryById(@PathVariable String id) {
         ItineraryDao itineraryToDelete = itineraryService.getItineraryById(id);
