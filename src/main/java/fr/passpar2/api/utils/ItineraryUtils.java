@@ -132,8 +132,8 @@ public class ItineraryUtils {
             String urlString
                     = API_URL + "?origins=" + encodedOrigin + "&destinations=" + encodedDestination + "&key=" + API_KEY;
             URL url = new URL(urlString);
-            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("cache.iut-rodez.fr", 8080));
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
+            // Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("cache.iut-rodez.fr", 8080));
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -183,8 +183,8 @@ public class ItineraryUtils {
             String urlString = API_URL + "?address=" + encodedAddress + "&key=" + API_KEY;
 
             URL url = new URL(urlString);
-            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("cache.iut-rodez.fr", 8080));
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
+            // Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("cache.iut-rodez.fr", 8080));
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
