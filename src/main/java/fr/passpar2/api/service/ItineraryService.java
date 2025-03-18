@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class ItineraryService {
@@ -32,6 +33,8 @@ public class ItineraryService {
         itinerary.setName(itineraryRequest.getName());
         itinerary.setUserId(itineraryRequest.getUserId());
 
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+
         for (Integer customerId : itineraryRequest.getItinerary()) {
             ItineraryPointDto itineraryPoint = new ItineraryPointDto();
             itineraryPoint.setCustomerId(customerId);
@@ -39,14 +42,21 @@ public class ItineraryService {
             AddressDto address = new AddressDto(addressService.getAddressByCustomerId(customerId));
             itineraryPoint.setAddress(address);
 
-            double[] coordinates = ItineraryUtils.getCoordinatesFromAddress(address);
-            itineraryPoint.setLatitude(coordinates[0]);
-            itineraryPoint.setLongitude(coordinates[1]);
+            // Exécuter l'obtention des coordonnées de manière asynchrone
+            CompletableFuture<Void> future = CompletableFuture.supplyAsync(() ->
+                    ItineraryUtils.getCoordinatesFromAddress(address)
+            ).thenAccept(coordinates -> {
+                itineraryPoint.setLatitude(coordinates[0]);
+                itineraryPoint.setLongitude(coordinates[1]);
+                itineraryPoint.isNotVisited();
+                itinerary.addItineraryPoint(itineraryPoint);
+            });
 
-            itineraryPoint.isNotVisited();
-
-            itinerary.addItineraryPoint(itineraryPoint);
+            futures.add(future);
         }
+
+        // Attendre que toutes les tâches asynchrones soient terminées
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
         return saveItinerary(new ItineraryDao(itinerary));
     }
