@@ -31,34 +31,36 @@ public class ItineraryService {
     public ItineraryDao createItinerary(ItineraryRequestDto itineraryRequest) {
         ItineraryDto itinerary = new ItineraryDto();
         itinerary.setName(itineraryRequest.getName());
-        itinerary.setUserId(itineraryRequest.getUserId());
 
-        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        Integer userId = itineraryRequest.getUserId();
+        itinerary.setUserId(userId);
+        AddressDto userAddress = new AddressDto(addressService.getAddressByUserId(userId));
+        ItineraryPointDto startPoint = createItineraryPoint(userAddress);
+        itinerary.addItineraryPoint(startPoint);
 
         for (Integer customerId : itineraryRequest.getItinerary()) {
-            ItineraryPointDto itineraryPoint = new ItineraryPointDto();
-            itineraryPoint.setCustomerId(customerId);
-
             AddressDto address = new AddressDto(addressService.getAddressByCustomerId(customerId));
-            itineraryPoint.setAddress(address);
 
-            // Exécuter l'obtention des coordonnées de manière asynchrone
-            CompletableFuture<Void> future = CompletableFuture.supplyAsync(() ->
-                    ItineraryUtils.getCoordinatesFromAddress(address)
-            ).thenAccept(coordinates -> {
-                itineraryPoint.setLatitude(coordinates[0]);
-                itineraryPoint.setLongitude(coordinates[1]);
-                itineraryPoint.isNotVisited();
-                itinerary.addItineraryPoint(itineraryPoint);
-            });
-
-            futures.add(future);
+            ItineraryPointDto itineraryPoint = createItineraryPoint(address);
+            itineraryPoint.setCustomerId(customerId);
+            itinerary.addItineraryPoint(itineraryPoint);
         }
 
-        // Attendre que toutes les tâches asynchrones soient terminées
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-
         return saveItinerary(new ItineraryDao(itinerary));
+    }
+
+    private ItineraryPointDto createItineraryPoint(AddressDto address) {
+        ItineraryPointDto itineraryPoint = new ItineraryPointDto();
+
+        itineraryPoint.setAddress(address);
+
+        double[] coordinates = ItineraryUtils.getCoordinatesFromAddress(address);
+
+        itineraryPoint.setLatitude(coordinates[0]);
+        itineraryPoint.setLongitude(coordinates[1]);
+        itineraryPoint.isNotVisited();
+
+        return itineraryPoint;
     }
 
     public ItineraryDao saveItinerary(ItineraryDao itinerary) {
