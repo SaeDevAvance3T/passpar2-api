@@ -17,7 +17,7 @@ public class ItineraryManager {
      * @param toVisit
      * @return
      */
-    public static List<AddressDto> findItinerary(List<ItineraryPointDto> toVisit) {
+    public static List<ItineraryPointDto> findItinerary(List<ItineraryPointDto> toVisit) {
         int itinerarySize = toVisit.size();
 
         if (itinerarySize > 12)

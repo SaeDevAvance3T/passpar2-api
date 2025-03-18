@@ -46,7 +46,14 @@ public class ItineraryService {
             itinerary.addItineraryPoint(itineraryPoint);
         }
 
+        itinerary.setItinerary(calculateBestItinerary(itinerary));
+
         return saveItinerary(new ItineraryDao(itinerary));
+    }
+
+    private List<ItineraryPointDto> calculateBestItinerary(ItineraryDto base) {
+        List<ItineraryPointDto> bestItinerary = ItineraryManager.findItinerary(base.getItinerary());
+        return bestItinerary;
     }
 
     private ItineraryPointDto createItineraryPoint(AddressDto address) {

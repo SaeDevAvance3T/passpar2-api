@@ -15,13 +15,13 @@ import java.util.function.Function;
 
 public class ItineraryUtils {
 
-    public static List<AddressDto> findItineraryByStartegy(
+    public static List<ItineraryPointDto> findItineraryByStartegy(
             List<ItineraryPointDto> toVisit,
             Function<List<List<Double>>, List<Integer>> strategy)
     {
         List<List<Double>> distanceMatrix  = buildDistanceMatrix(toVisit);
         List<Integer> itineraryIndexes = strategy.apply(distanceMatrix);
-        List<AddressDto> itineraryAddresses = buildItineraryFromIndexes(toVisit, itineraryIndexes);
+        List<ItineraryPointDto> itineraryAddresses = buildItineraryFromIndexes(toVisit, itineraryIndexes);
         return itineraryAddresses;
     }
 
@@ -166,10 +166,10 @@ public class ItineraryUtils {
         }
     }
 
-    private static List<AddressDto> buildItineraryFromIndexes(List<ItineraryPointDto> toVisit, List<Integer> itinerary) {
-        List<AddressDto> itineraryAddress = new ArrayList<>();
+    private static List<ItineraryPointDto> buildItineraryFromIndexes(List<ItineraryPointDto> toVisit, List<Integer> itinerary) {
+        List<ItineraryPointDto> itineraryAddress = new ArrayList<>();
         for(Integer i: itinerary) {
-            itineraryAddress.add(toVisit.get(i).getAddress());
+            itineraryAddress.add(toVisit.get(i));
         }
         return itineraryAddress;
     }
