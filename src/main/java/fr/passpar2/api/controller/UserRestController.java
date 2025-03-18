@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import fr.passpar2.api.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @RestController
 @RequestMapping("/api/users")
@@ -28,8 +29,13 @@ public class UserRestController {
     }
 
     @GetMapping()
-    public ResponseEntity<ApiResponseDto<List<UserDao>>> getAllUsers() {
-        ApiResponseDto<List<UserDao>> response = new ApiResponseDto<>(userService.getAllUsers(), HttpStatus.OK);
+    public ResponseEntity<ApiResponseDto<List<UserDto>>> getAllUsers() {
+        List<UserDao> users = userService.getAllUsers();
+        List<UserDto> usersResult = new ArrayList<>();
+        for(UserDao user: users) {
+            usersResult.add(new UserDto(user));
+        }
+        ApiResponseDto<List<UserDto>> response = new ApiResponseDto<>(usersResult, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

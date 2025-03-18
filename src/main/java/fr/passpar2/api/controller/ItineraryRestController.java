@@ -48,19 +48,7 @@ public class ItineraryRestController {
         if (request.getItinerary().size() > 8)
             return new ResponseEntity<>(new ApiResponseDto<>(null, null), HttpStatus.CREATED);
 
-        ItineraryDto itinerary = new ItineraryDto();
-        itinerary.setName(request.getName());
-        itinerary.setUserId(request.getUserId());
-
-        for (Integer customerId : request.getItinerary()) {
-            ItineraryPointDto itineraryPoint = new ItineraryPointDto();
-            itineraryPoint.setCustomerId(customerId);
-            itineraryPoint.isNotVisited();
-
-            itinerary.addItineraryPoint(itineraryPoint);
-        }
-
-        ItineraryDao itineraryCreated = itineraryService.saveItinerary(new ItineraryDao(itinerary));
+        ItineraryDao itineraryCreated = itineraryService.createItinerary(request);
 
         ApiResponseDto<ItineraryDto> response = new ApiResponseDto<>(new ItineraryDto(itineraryCreated), HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

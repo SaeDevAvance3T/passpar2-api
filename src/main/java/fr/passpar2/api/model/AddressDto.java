@@ -78,4 +78,16 @@ public class AddressDto {
     public String getSupplement() { return this.supplement; }
 
     public void setSupplement(String supplement) { this.supplement = supplement; }
+
+    public String getFullAddress() {
+        StringBuilder fullAddress = new StringBuilder();
+
+        if (street != null && !street.isEmpty()) fullAddress.append(street).append(" ");
+        if (postalCode != null) fullAddress.append(postalCode).append(" ");
+        if (city != null && !city.isEmpty()) fullAddress.append(city).append(" ");
+        if (supplement != null && !supplement.isEmpty()) fullAddress.append(supplement).append(" ");
+        if (country != null && !country.isEmpty()) fullAddress.append(country);
+
+        return fullAddress.toString().trim();
+    }
 }

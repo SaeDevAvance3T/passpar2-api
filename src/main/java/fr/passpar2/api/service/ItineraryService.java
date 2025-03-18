@@ -3,9 +3,10 @@ package fr.passpar2.api.service;
 import fr.passpar2.api.entity.CustomerDao;
 import fr.passpar2.api.entity.ItineraryDao;
 import fr.passpar2.api.entity.UserDao;
-import fr.passpar2.api.model.ItineraryPointDto;
-import fr.passpar2.api.model.ItineraryRequestDto;
+import fr.passpar2.api.model.*;
 import fr.passpar2.api.repository.IItineraryRepository;
+import fr.passpar2.api.utils.ItineraryManager;
+import fr.passpar2.api.utils.ItineraryUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,12 +16,39 @@ import java.util.Optional;
 @Service
 public class ItineraryService {
 
+    private final AddressService addressService;
     private final IItineraryRepository itineraryRepository;
 
     public ItineraryService(
+            AddressService addressService,
             IItineraryRepository itineraryRepository
     ) {
+        this.addressService = addressService;
         this.itineraryRepository = itineraryRepository;
+    }
+
+    public ItineraryDao createItinerary(ItineraryRequestDto itineraryRequest) {
+        ItineraryDto itinerary = new ItineraryDto();
+        itinerary.setName(itineraryRequest.getName());
+        itinerary.setUserId(itineraryRequest.getUserId());
+
+        for (Integer customerId : itineraryRequest.getItinerary()) {
+            ItineraryPointDto itineraryPoint = new ItineraryPointDto();
+            itineraryPoint.setCustomerId(customerId);
+
+            AddressDto address = new AddressDto(addressService.getAddressByCustomerId(customerId));
+            itineraryPoint.setAddress(address);
+
+            double[] coordinates = ItineraryUtils.getCoordinatesFromAddress(address);
+            itineraryPoint.setLatitude(coordinates[0]);
+            itineraryPoint.setLongitude(coordinates[1]);
+
+            itineraryPoint.isNotVisited();
+
+            itinerary.addItineraryPoint(itineraryPoint);
+        }
+
+        return saveItinerary(new ItineraryDao(itinerary));
     }
 
     public ItineraryDao saveItinerary(ItineraryDao itinerary) {
