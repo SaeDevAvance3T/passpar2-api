@@ -55,6 +55,36 @@ public class ItineraryUtils {
         return itinerary;
     }
 
+    public static List<Integer> Little(List<List<Double>> distanceMatrix) {
+        int n = distanceMatrix.size();
+        boolean[] visited = new boolean[n];
+        List<Integer> itinerary = new ArrayList<>();
+
+        itinerary.add(0);
+        visited[0] = true;
+
+        while (itinerary.size() < n) {
+            int last = itinerary.get(itinerary.size() - 1);
+            int nextCity = -1;
+            double minCost = Double.MAX_VALUE;
+
+            for (int i = 0; i < n; i++) {
+                if (!visited[i] && distanceMatrix.get(last).get(i) < minCost) {
+                    minCost = distanceMatrix.get(last).get(i);
+                    nextCity = i;
+                }
+            }
+
+            if (nextCity != -1) {
+                itinerary.add(nextCity);
+                visited[nextCity] = true;
+            }
+        }
+
+        itinerary.add(0);
+        return itinerary;
+    }
+
     private static List<List<Integer>> generatePermutations(List<Integer> list) {
         List<List<Integer>> permutations = new ArrayList<>();
         generatePermutationsHelper(list, 0, permutations);

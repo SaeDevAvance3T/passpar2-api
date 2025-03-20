@@ -20,9 +20,12 @@ public class ItineraryManager {
     public static List<ItineraryPointDto> findItinerary(List<ItineraryPointDto> toVisit) {
         int itinerarySize = toVisit.size();
 
-        if (itinerarySize > 12)
+        if (itinerarySize > 3)
             return ItineraryUtils.findItineraryByStartegy(toVisit,
                     ItineraryUtils::NearestNeighbor);
+        else if (itinerarySize > 6)
+            return ItineraryUtils.findItineraryByStartegy(toVisit,
+                    ItineraryUtils::Little);
         else
             return ItineraryUtils.findItineraryByStartegy(toVisit,
                     ItineraryUtils::BruteForce);
