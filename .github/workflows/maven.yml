@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest  # Le job s'exécute sur la dernière version d'Ubuntu disponible
 
     steps:
-    - name: Run Docker Compose remotely  # Exécution de Docker Compose à distance
+    - name: Restart API on VPS  # Exécution du relancement de l'API sur le VPS
       run: |
         sshpass -p ${{ secrets.REMOTE_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
           ./update.sh
