@@ -13,10 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4  # Action pour récupérer le code source du dépôt
 
-    - name: Set up JDK 17  # Configuration de la version 17 de Java
+    - name: Set up JDK 23  # Configuration de la version 23 de Java
       uses: actions/setup-java@v4  # Action pour configurer Java
       with:
-        java-version: '17'  # Spécifie la version de Java
+        java-version: '23'  # Spécifie la version de Java
         distribution: 'corretto'  # Utilisation de la distribution Amazon Corretto de Java
         cache: maven  # Mise en cache des dépendances Maven pour améliorer la performance
 
@@ -29,49 +29,8 @@ jobs:
     if: github.ref == 'refs/heads/main'  # Ce job ne s'exécute que si la branche est 'main'
 
     steps:
-    - uses: actions/checkout@v4  # Action pour récupérer le code source du dépôt
-
-    - name: Set up JDK 17 for deploy  # Configuration de Java 17 pour le déploiement
-      uses: actions/setup-java@v4  # Action pour configurer Java
-      with:
-        java-version: '17'  # Spécifie la version de Java
-        distribution: 'corretto'  # Utilisation de la distribution Amazon Corretto de Java
-
-    - name: Update application.properties with MySQL credentials  # Mise à jour du fichier application.properties avec les identifiants MySQL
-      run: |
-        # Remplace les placeholders dans application.properties par les secrets
-        sed -i 's/<db_user>/${{ secrets.MYSQL_USER }}/' commerzi-api/src/main/resources/application.properties
-        sed -i 's/<db_password>/${{ secrets.MYSQL_PASSWORD }}/' commerzi-api/src/main/resources/application.properties
-        sed -i 's/<jopencage_api_key>/${{ secrets.JOPENCAGE_API_KEY }}/' commerzi-api/src/main/resources/application.properties
-
-    - name: Compile with skip tests  # Compilation avec Maven en sautant les tests
-      run: mvn -B package --file pom.xml -DskipTests  # Lancer la commande Maven avec l'option pour ignorer les tests
-
-    - name: Copy .jar to docker/api  # Copie du fichier .jar dans le répertoire Docker
-      run: |
-        cp target/*.jar docker/api/  # Copie du fichier .jar généré vers le dossier Docker
-
-    - name: Deploy to remote server via SCP  # Déploiement du fichier sur un serveur distant via SCP
-      uses: appleboy/scp-action@v0.1.5  # Action pour utiliser SCP pour copier les fichiers
-      with:
-        host: ${{ secrets.REMOTE_HOST }}  # Hôte distant, récupéré des secrets
-        username: ${{ secrets.REMOTE_USER }}  # Utilisateur pour la connexion SSH
-        password: ${{ secrets.REMOTE_PASSWORD }}  # Mot de passe pour la connexion SSH
-        port: 22  # Port utilisé pour la connexion SSH (par défaut 22)
-        source: "docker/*"  # Fichiers source à copier depuis le répertoire Docker
-        target: "/home/ubuntu/docker/"  # Destination sur le serveur distant
-        recursive: true  # Copie récursive des fichiers
-
     - name: Run Docker Compose remotely  # Exécution de Docker Compose à distance
       run: |
         sshpass -p ${{ secrets.REMOTE_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-          cd /home/ubuntu/docker/commerzi-api/docker/  # Aller dans le répertoire Docker
-          sudo docker compose down  # Arrêter et supprimer les containers existants
-          sudo docker compose up -d --build  # Lancer Docker Compose avec l'option de build en mode détaché
-        EOF
-
-    - name: Clean up remote docker folder  # Nettoyage du répertoire Docker distant
-      run: |
-        sshpass -p ${{ secrets.REMOTE_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-          #rm -rf /home/ubuntu/docker/*  # Supprimer tous les fichiers dans le répertoire Docker
+          ./update.sh
         EOF
