@@ -72,8 +72,8 @@ public class ItineraryRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/visited/{customerId}")
-    public ResponseEntity<ApiResponseDto<ItineraryDto>> updateItineraryVisitedById(@PathVariable String id,@PathVariable Integer customerId) {
+    @PutMapping("/{id}/visited")
+    public ResponseEntity<ApiResponseDto<ItineraryDto>> updateItineraryVisitedById(@PathVariable String id, @RequestBody Integer customerId) {
         ItineraryDao itinerary = itineraryService.updateItineraryVisitedById(id, customerId);
         ItineraryDto itineraryResult = new ItineraryDto(itinerary);
 
