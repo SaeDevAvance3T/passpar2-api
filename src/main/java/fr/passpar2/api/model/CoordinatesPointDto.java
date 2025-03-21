@@ -1,5 +1,7 @@
 package fr.passpar2.api.model;
 
+import fr.passpar2.api.address.AddressDto;
+
 public class CoordinatesPointDto {
     private String type = "point";
     private AddressDto address;

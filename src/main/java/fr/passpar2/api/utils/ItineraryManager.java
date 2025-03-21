@@ -1,13 +1,7 @@
 package fr.passpar2.api.utils;
 
-import fr.passpar2.api.model.AddressDto;
-import fr.passpar2.api.model.ItineraryPointDto;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import fr.passpar2.api.itinerary.ItineraryPointDto;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.*;
 import java.util.List;
 
 public class ItineraryManager {

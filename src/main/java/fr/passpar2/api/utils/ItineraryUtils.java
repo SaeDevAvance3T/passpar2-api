@@ -1,7 +1,7 @@
 package fr.passpar2.api.utils;
 
-import fr.passpar2.api.model.AddressDto;
-import fr.passpar2.api.model.ItineraryPointDto;
+import fr.passpar2.api.address.AddressDto;
+import fr.passpar2.api.itinerary.ItineraryPointDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
