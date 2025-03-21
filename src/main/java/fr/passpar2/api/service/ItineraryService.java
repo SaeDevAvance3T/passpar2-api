@@ -91,13 +91,16 @@ public class ItineraryService {
             itinerary.setName(request.getName());
             itinerary.setUserId(request.getUserId());
             itinerary.setItinerary(new ArrayList<>());
-            for (Integer customerId : request.getItinerary()) {
-                ItineraryPointDto itineraryPoint = new ItineraryPointDto();
-                itineraryPoint.setCustomerId(customerId);
-                itineraryPoint.isNotVisited();
 
+            for (Integer customerId : request.getItinerary()) {
+                AddressDto address = new AddressDto(addressService.getAddressByCustomerId(customerId));
+
+                ItineraryPointDto itineraryPoint = createItineraryPoint(address);
+                itineraryPoint.setCustomerId(customerId);
                 itinerary.addItineraryPoint(itineraryPoint);
             }
+
+            itinerary.setItinerary(calculateBestItinerary(new ItineraryDto(itinerary)));
             return itineraryRepository.save(itinerary);
         }).orElseThrow(() -> new RuntimeException("Itineraire introuvable"));
     }
@@ -105,8 +108,9 @@ public class ItineraryService {
     public ItineraryDao updateItineraryVisitedById(String id, Integer customerId) {
         return itineraryRepository.findById(id).map(itinerary -> {
             for (ItineraryPointDto point : itinerary.getItinerary()) {
-                if (point.getCustomerId() == customerId)
+                if (point.getCustomerId() == customerId && !point.getVisited()) {
                     point.isVisited();
+                }
             }
             return itineraryRepository.save(itinerary);
         }).orElseThrow(() -> new RuntimeException("Itineraire introuvable"));
