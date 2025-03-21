@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "*" ]  # Lors d'un push sur n'importe quelle branche
   pull_request:
-    branches: [ "*" ]  # Lors d'une demande de pull sur n'importe quelle branche
+    branches: [ "*" ]  # Lors d'une demande de pull sur n'importe quelle branch
 
 jobs:
   build:
