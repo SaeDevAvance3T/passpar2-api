@@ -105,7 +105,7 @@ public class ItineraryService {
         }).orElseThrow(() -> new RuntimeException("Itineraire introuvable"));
     }
 
-    public ItineraryDao updateItineraryVisitedById(String id, Integer customerId) {
+    public ItineraryDao updateItineraryVisitedById(String id, int customerId) {
         return itineraryRepository.findById(id).map(itinerary -> {
             for (ItineraryPointDto point : itinerary.getItinerary()) {
                 if (point.getCustomerId() == customerId && !point.getVisited())

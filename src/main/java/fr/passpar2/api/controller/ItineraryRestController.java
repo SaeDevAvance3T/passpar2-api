@@ -73,7 +73,7 @@ public class ItineraryRestController {
     }
 
     @PutMapping("/{id}/visited/{customerId}")
-    public ResponseEntity<ApiResponseDto<ItineraryDto>> updateItineraryVisitedById(@PathVariable String id, @PathVariable Integer customerId) {
+    public ResponseEntity<ApiResponseDto<ItineraryDto>> updateItineraryVisitedById(@PathVariable String id, @PathVariable int customerId) {
         ItineraryDao itinerary = itineraryService.updateItineraryVisitedById(id, customerId);
         ItineraryDto itineraryResult = new ItineraryDto(itinerary);
 

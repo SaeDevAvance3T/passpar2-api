@@ -1,7 +1,7 @@
 package fr.passpar2.api.model;
 
 public class CoordinatesPointDto {
-    private String type;
+    private String type = "point";
     private AddressDto address;
     private double latitude;
     private double longitude;
