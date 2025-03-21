@@ -102,6 +102,16 @@ public class ItineraryService {
         }).orElseThrow(() -> new RuntimeException("Itineraire introuvable"));
     }
 
+    public ItineraryDao updateItineraryVisitedById(String id, Integer customerId) {
+        return itineraryRepository.findById(id).map(itinerary -> {
+            for (ItineraryPointDto point : itinerary.getItinerary()) {
+                if (point.getCustomerId() == customerId)
+                    point.isVisited();
+            }
+            return itineraryRepository.save(itinerary);
+        }).orElseThrow(() -> new RuntimeException("Itineraire introuvable"));
+    }
+
     public void deleteItinerary(ItineraryDao itinerary) {
         itineraryRepository.delete(itinerary);
     }

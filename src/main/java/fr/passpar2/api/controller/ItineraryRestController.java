@@ -72,6 +72,15 @@ public class ItineraryRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/visited/{customerId}")
+    public ResponseEntity<ApiResponseDto<ItineraryDto>> updateItineraryVisitedById(@PathVariable String id,@PathVariable Integer customerId) {
+        ItineraryDao itinerary = itineraryService.updateItineraryVisitedById(id, customerId);
+        ItineraryDto itineraryResult = new ItineraryDto(itinerary);
+
+        ApiResponseDto<ItineraryDto> response = new ApiResponseDto<>(itineraryResult, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity deleteItineraryById(@PathVariable String id) {
         ItineraryDao itineraryToDelete = itineraryService.getItineraryById(id);
