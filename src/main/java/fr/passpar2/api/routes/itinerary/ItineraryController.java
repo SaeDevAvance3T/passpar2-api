@@ -47,28 +47,15 @@ public class ItineraryController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<ApiResponse<List<ItineraryDto>>> getAllItinerariesForUser(@PathVariable Integer userId){
+    public ResponseEntity<ApiResponse<List<ItineraryBaseDto>>> getAllItinerariesForUser(@PathVariable Integer userId){
         List<ItineraryDao> itinerariesFound = itineraryService.getAllItinerariesByUserId(userId);
-        List<ItineraryDto> itineraries = new ArrayList<>();
+        List<ItineraryBaseDto> itineraries = new ArrayList<>();
 
-        for (ItineraryDao itineraryFound: itinerariesFound) {
-            ItineraryDto itinerary = new ItineraryDto(itineraryFound);
-
-            UserDao itineraryUserFound = userService.getUserById(userId);
-            UserBaseDto itineraryUser = new UserBaseDto(itineraryUserFound);
-            itinerary.setUser(itineraryUser);
-
-            List<CustomerDao> itineraryCustomersFound = itineraryService.getCustomersByItineraryId(itinerary.getId());
-            List<CustomerBaseDto> itineraryCustomers = new ArrayList<>();
-            for (CustomerDao customer: itineraryCustomersFound) {
-                itineraryCustomers.add(new CustomerBaseDto(customer));
-            }
-            itinerary.setCustomersToVisit(itineraryCustomers);
-
-            itineraries.add(itinerary);
+        for (ItineraryDao itinerary: itinerariesFound) {
+            itineraries.add(new ItineraryBaseDto(itinerary));
         }
 
-        ApiResponse<List<ItineraryDto>> response = new ApiResponse<>(itineraries, HttpStatus.OK);
+        ApiResponse<List<ItineraryBaseDto>> response = new ApiResponse<>(itineraries, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
