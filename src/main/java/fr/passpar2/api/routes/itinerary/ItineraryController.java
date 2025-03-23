@@ -1,15 +1,11 @@
 package fr.passpar2.api.routes.itinerary;
 
 import fr.passpar2.api.response.ApiResponse;
-import fr.passpar2.api.routes.customer.CustomerDao;
 import fr.passpar2.api.routes.customer.CustomerService;
-import fr.passpar2.api.routes.customer.dto.CustomerBaseDto;
 import fr.passpar2.api.routes.itinerary.dto.ItineraryBaseDto;
 import fr.passpar2.api.routes.itinerary.dto.ItineraryDto;
 import fr.passpar2.api.routes.itinerary.dto.ItineraryRequestDto;
-import fr.passpar2.api.routes.user.UserDao;
 import fr.passpar2.api.routes.user.UserService;
-import fr.passpar2.api.routes.user.dto.UserBaseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +18,8 @@ import java.util.List;
 public class ItineraryController {
 
     private final ItineraryService itineraryService;
-    private final UserService userService;
-    private final CustomerService customerService;
 
-    public ItineraryController(ItineraryService itineraryService, UserService userService, CustomerService customerService) {this.itineraryService = itineraryService;
-        this.userService = userService;
-        this.customerService = customerService;
+    public ItineraryController(ItineraryService itineraryService) {this.itineraryService = itineraryService;
     }
 
     @GetMapping()
