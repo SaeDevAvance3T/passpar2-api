@@ -48,6 +48,7 @@ public class CourseService {
             else if (point.getCustomerId() == customerId && !pointIsVisited) {
                 point.setVisited(true);
                 pointIsVisited = true;
+                allPointsVisited--;
             }
         }
 
