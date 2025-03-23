@@ -1,10 +1,10 @@
 package fr.passpar2.api.model;
 
-import fr.passpar2.api.address.AddressDto;
+import fr.passpar2.api.routes.address.dto.AddressBaseDto;
 
 public class CoordinatesPointDto {
     private String type = "point";
-    private AddressDto address;
+    private AddressBaseDto address;
     private double latitude;
     private double longitude;
 
@@ -13,8 +13,8 @@ public class CoordinatesPointDto {
     public String getType() { return this.type; }
     public void setType(String type) { this.type = type; }
 
-    public AddressDto getAddress() { return this.address; }
-    public void setAddress(AddressDto address) { this.address = address; }
+    public AddressBaseDto getAddress() { return this.address; }
+    public void setAddress(AddressBaseDto address) { this.address = address; }
 
     public double getLatitude() { return this.latitude; }
     public void setLatitude(double latitude) { this.latitude = latitude; }
