@@ -64,17 +64,6 @@ public class ItineraryController {
         ItineraryDao itineraryCreated = itineraryService.createUserItinerary(userId, request);
         ItineraryDto itinerary = new ItineraryDto(itineraryCreated);
 
-        UserDao itineraryUserFound = userService.getUserById(userId);
-        UserBaseDto itineraryUser = new UserBaseDto(itineraryUserFound);
-        itinerary.setUser(itineraryUser);
-
-        List<CustomerDao> itineraryCustomersFound = customerService.getCustomersByItineraryId(itinerary.getId());
-        List<CustomerBaseDto> itineraryCustomers = new ArrayList<>();
-        for (CustomerDao customer: itineraryCustomersFound) {
-            itineraryCustomers.add(new CustomerBaseDto(customer));
-        }
-        itinerary.setCustomersToVisit(itineraryCustomers);
-
         ApiResponse<ItineraryDto> response = new ApiResponse<>(itinerary, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
