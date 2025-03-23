@@ -17,6 +17,7 @@ public class CustomerBaseDto implements IBaseResponse<CustomerBaseDto> {
 
     public CustomerBaseDto(CustomerDao model) {
         this.setId(model.getId());
+        this.setName(model.getName());
         this.setDescription(model.getDescription());
         this.setIsProspect(model.getIsProspect());
         this.setUser(model.getUser());

@@ -14,7 +14,7 @@ public class UserBaseDto implements IBaseResponse<UserBaseDto> {
 
     public UserBaseDto(UserDao model) {
         this.setId(model.getId());
-        this.setFirstName(getFirstName());
+        this.setFirstName(model.getFirstName());
         this.setLastName(model.getLastName());
         this.setEmail(model.getEmail());
     }
