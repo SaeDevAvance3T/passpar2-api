@@ -48,9 +48,7 @@ public class CustomerService {
     }
 
     public CustomerDao getCustomerById(int id) {
-        Optional<CustomerDao> customerOpt = customerRepository.findById(id);
-
-        return customerOpt.orElseThrow(() ->
+        return customerRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Client introuvable")
         );
     }
@@ -63,6 +61,9 @@ public class CustomerService {
 
         if (customer.getDescription() != null && !customer.getDescription().isEmpty())
             existingCustomer.setDescription(customer.getDescription());
+
+        if (customer.getIsProspect() != null)
+            existingCustomer.setIsProspect(customer.getIsProspect());
 
         return customerRepository.save(existingCustomer);
     }
