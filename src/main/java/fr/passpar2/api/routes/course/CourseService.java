@@ -39,7 +39,7 @@ public class CourseService {
         return this.courseRepository.findById(courseId).orElse(null);
     }
 
-    public CourseDao pointIsVisited(CourseDao course, int customerId) {
+    public CourseDao pointIsVisited(CourseDao course, Integer customerId) {
         int allPointsVisited = course.getPoints().size();
         boolean pointIsVisited = false;
         for (CoursePoint point : course.getPoints()) {

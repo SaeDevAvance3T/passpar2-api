@@ -48,7 +48,8 @@ public class CourseController {
     @PostMapping("/start/{itineraryId}")
     public ResponseEntity<ApiResponse<CourseDto>> startCourse(@PathVariable String itineraryId){
         CourseDao courseCreated = courseService.createCourse(itineraryId);
-        CourseDto course = new CourseDto(courseCreated);
+        CourseDao courseUpdated = courseService.pointIsVisited(courseCreated, 0);
+        CourseDto course = new CourseDto(courseUpdated);
 
         ApiResponse<CourseDto> response = new ApiResponse<>(course, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -64,7 +65,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}/points/{customerId}/visited")
-    public ResponseEntity<ApiResponse<CourseDto>> updateCoursePointAsVisited(@PathVariable String id, @PathVariable int customerId) {
+    public ResponseEntity<ApiResponse<CourseDto>> updateCoursePointAsVisited(@PathVariable String id, @PathVariable Integer customerId) {
         CourseDao courseFound = courseService.getCourseById(id);
         if (courseFound == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
