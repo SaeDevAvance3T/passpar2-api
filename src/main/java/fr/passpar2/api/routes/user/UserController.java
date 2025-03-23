@@ -58,7 +58,7 @@ public class UserController {
         UserDao userUpdated = userService.updateUserById(id, request);
         UserDto user = new UserDto(userUpdated);
 
-        AddressDao userAddressUpdated = addressService.updateAddress(user.getAddress().getId(), request.getAddress());
+        AddressDao userAddressUpdated = addressService.updateAddress(request.getAddress().getId(), request.getAddress());
         user.setAddress(userAddressUpdated);
 
         ApiResponse<UserDto> response = new ApiResponse<>(user, HttpStatus.OK);
