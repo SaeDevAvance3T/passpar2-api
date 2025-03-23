@@ -1,6 +1,7 @@
 package fr.passpar2.api.routes.course;
 
 import fr.passpar2.api.response.ApiResponse;
+import fr.passpar2.api.routes.contact.ContactDao;
 import fr.passpar2.api.routes.course.dto.CourseBaseDto;
 import fr.passpar2.api.routes.course.dto.CourseDto;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,15 @@ public class CourseController {
         }
 
         ApiResponse<List<CourseBaseDto>> response = new ApiResponse<>(courses, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/start/{itineraryId}")
+    public ResponseEntity<ApiResponse<CourseDto>> startCourse(@PathVariable String itineraryId){
+        CourseDao courseCreated = courseService.createCourse(itineraryId);
+        CourseDto course = new CourseDto(courseCreated);
+
+        ApiResponse<CourseDto> response = new ApiResponse<>(course, HttpStatus.OK);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

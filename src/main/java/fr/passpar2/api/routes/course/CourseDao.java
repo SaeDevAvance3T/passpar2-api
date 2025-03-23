@@ -1,7 +1,7 @@
 package fr.passpar2.api.routes.course;
 
 import fr.passpar2.api.routes.course.dto.CourseDto;
-import fr.passpar2.api.routes.course.dto.CoursePointDto;
+import fr.passpar2.api.routes.course.dto.CoursePoint;
 import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -23,7 +23,7 @@ public class CourseDao {
     @Field("name_itinerary")
     private String itineraryName;
 
-    private List<CoursePointDto> points;
+    private List<CoursePoint> points;
 
     @Field("created_at")
     private LocalDateTime createdAt;
@@ -67,11 +67,11 @@ public class CourseDao {
         this.itineraryName = itineraryName;
     }
 
-    public List<CoursePointDto> getPoints() {
+    public List<CoursePoint> getPoints() {
         return points;
     }
 
-    public void setPoints(List<CoursePointDto> points) {
+    public void setPoints(List<CoursePoint> points) {
         this.points = points;
     }
 

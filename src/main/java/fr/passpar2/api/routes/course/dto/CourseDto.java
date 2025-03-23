@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CourseDto extends CourseBaseDto implements IFullResponse<CourseBaseDto> {
 
-    private List<CoursePointDto> points = new ArrayList<CoursePointDto>();
+    private List<CoursePoint> points = new ArrayList<CoursePoint>();
 
     public CourseDto() { super(); }
 
@@ -17,11 +17,15 @@ public class CourseDto extends CourseBaseDto implements IFullResponse<CourseBase
         this.points.addAll(model.getPoints());
     }
 
-    public List<CoursePointDto> getPoints() {
+    public List<CoursePoint> getPoints() {
         return points;
     }
 
-    public void setPoints(List<CoursePointDto> points) {
+    public void setPoints(List<CoursePoint> points) {
         this.points = points;
+    }
+
+    public void addPoints(CoursePoint point) {
+        this.points.add(point);
     }
 }

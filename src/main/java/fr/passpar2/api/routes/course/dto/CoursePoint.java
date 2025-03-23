@@ -1,10 +1,10 @@
 package fr.passpar2.api.routes.course.dto;
 
-public class CoursePointDto {
+public class CoursePoint {
 
     private int customerId;
 
-    private CoursePointCoordinatesDto coordinates;
+    private CoursePointCoordinates coordinates;
 
     private boolean isVisited;
 
@@ -16,11 +16,11 @@ public class CoursePointDto {
         this.customerId = customerId;
     }
 
-    public CoursePointCoordinatesDto getCoordinates() {
+    public CoursePointCoordinates getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(CoursePointCoordinatesDto coordinates) {
+    public void setCoordinates(CoursePointCoordinates coordinates) {
         this.coordinates = coordinates;
     }
 

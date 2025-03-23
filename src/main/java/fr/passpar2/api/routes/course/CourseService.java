@@ -1,10 +1,17 @@
 package fr.passpar2.api.routes.course;
 
-import fr.passpar2.api.routes.course.dto.CoursePointDto;
+import fr.passpar2.api.routes.address.AddressDao;
+import fr.passpar2.api.routes.address.AddressService;
+import fr.passpar2.api.routes.address.dto.AddressDto;
+import fr.passpar2.api.routes.course.dto.CourseDto;
+import fr.passpar2.api.routes.course.dto.CoursePointCoordinates;
+import fr.passpar2.api.routes.course.dto.CoursePoint;
+import fr.passpar2.api.routes.itinerary.ItineraryDao;
+import fr.passpar2.api.routes.itinerary.ItineraryService;
+import fr.passpar2.api.utils.CourseManager;
+import fr.passpar2.api.utils.CourseUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,8 +19,13 @@ import java.util.List;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final ItineraryService itineraryService;
+    private final AddressService addressService;
 
-    public CourseService(CourseRepository courseRepository) { this.courseRepository = courseRepository; }
+    public CourseService(CourseRepository courseRepository, ItineraryService itineraryService, AddressService addressService) { this.courseRepository = courseRepository;
+        this.itineraryService = itineraryService;
+        this.addressService = addressService;
+    }
 
     public List<CourseDao> getAllCourses() {
         return this.courseRepository.findAll();
@@ -30,7 +42,7 @@ public class CourseService {
     public CourseDao pointIsVisited(CourseDao course, int customerId) {
         int allPointsVisited = course.getPoints().size();
         boolean pointIsVisited = false;
-        for (CoursePointDto point : course.getPoints()) {
+        for (CoursePoint point : course.getPoints()) {
             if (point.isVisited())
                 allPointsVisited--;
             else if (point.getCustomerId() == customerId && !pointIsVisited) {
@@ -47,5 +59,43 @@ public class CourseService {
 
     public void deleteCourse(CourseDao courseDao) {
         this.courseRepository.delete(courseDao);
+    }
+
+    public CourseDao createCourse(String itineraryId) {
+        ItineraryDao itineraryFound = itineraryService.getItineraryById(itineraryId);
+
+        CourseDto course = new CourseDto();
+        course.setUserId(itineraryFound.getUserId());
+        course.setItineraryId(itineraryId);
+        course.setItineraryName(itineraryFound.getName());
+        course.setCreatedAt(LocalDateTime.now());
+
+        for (Integer customerId : itineraryFound.getItinerary()) {
+            AddressDao customerAddressFound = addressService.getAddressByCustomerId(customerId);
+            AddressDto customerAddress = new AddressDto(customerAddressFound);
+
+            double[] coordinates = CourseUtils.getCoordinatesFromAddress(customerAddress);
+            CoursePointCoordinates pointCoordinates = new CoursePointCoordinates();
+            pointCoordinates.setType("point");
+            pointCoordinates.setLatitude(coordinates[0]);
+            pointCoordinates.setLongitude(coordinates[1]);
+
+            CoursePoint point = new CoursePoint();
+            point.setCustomerId(customerId);
+            point.setCoordinates(pointCoordinates);
+            point.setVisited(false);
+
+            course.addPoints(point);
+        }
+
+        List<CoursePoint> bestCourse = CourseManager.findCourse(course.getPoints());
+        course.setPoints(bestCourse);
+
+        CourseDao courseToSave = new CourseDao(course);
+        return saveCourse(courseToSave);
+    }
+
+    public CourseDao saveCourse(CourseDao courseDao) {
+        return this.courseRepository.save(courseDao);
     }
 }

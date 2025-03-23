@@ -1,6 +1,6 @@
 package fr.passpar2.api.routes.course.dto;
 
-public class CoursePointCoordinatesDto {
+public class CoursePointCoordinates {
     private String type;
     private double latitude;
     private double longitude;
@@ -28,5 +28,9 @@ public class CoursePointCoordinatesDto {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getCoordinates() {
+        return latitude + "," + longitude;
     }
 }
