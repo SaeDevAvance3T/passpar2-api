@@ -49,12 +49,11 @@ public class CustomerController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse<List<CustomerBaseDto>>> getAllCustomersForUser(@PathVariable int userId) {
-        List<CustomerDao> customerFound = customerService.getAllCustomers();
+        List<CustomerDao> customerFound = customerService.getCustomersByUserId(userId);
         List<CustomerBaseDto> customers = new ArrayList<>();
 
         for (CustomerDao customer: customerFound) {
-            if (customer.getUser().getId() == userId)
-                customers.add(new CustomerBaseDto(customer));
+            customers.add(new CustomerBaseDto(customer));
         }
 
         ApiResponse<List<CustomerBaseDto>> response = new ApiResponse<>(customers, HttpStatus.OK);
