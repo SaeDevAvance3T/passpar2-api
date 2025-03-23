@@ -25,7 +25,7 @@ public class ItineraryDto extends ItineraryBaseDto implements IFullResponse<Itin
     public List<CustomerBaseDto> getCustomersToVisit() { return this.customersToVisit; }
     public void setCustomersToVisit(List<CustomerBaseDto> customersToVisit) { this.customersToVisit = customersToVisit; }
     public void addCustomersToVisit(CustomerBaseDto customer) { this.customersToVisit.add(customer); }
-    public void addCustomersToVisit(CustomerDao customer) { this.addCustomersToVisit(customer); }
+    public void addCustomersToVisit(CustomerDao customer) { this.addCustomersToVisit(new CustomerBaseDto(customer)); }
     public void removeCustomersToVisit(CustomerBaseDto customer) { this.customersToVisit.remove(customer); }
     public void removeCustomersToVisit(CustomerDao customer) { this.removeCustomersToVisit(new CustomerBaseDto(customer)); }
 

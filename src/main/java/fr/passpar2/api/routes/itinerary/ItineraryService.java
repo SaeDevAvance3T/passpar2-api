@@ -34,7 +34,8 @@ public class ItineraryService {
         itinerary.setUser(userService.getUserById(userId));
         itinerary.setName(request.getName());
         for (Integer customerId : request.getItinerary()) {
-            itinerary.addCustomersToVisit(customerService.getCustomerById(customerId));
+            CustomerDao customerFound = customerService.getCustomerById(customerId);
+            itinerary.addCustomersToVisit(customerFound);
         }
         ItineraryDao itineraryToSave = new ItineraryDao(itinerary);
         return saveItinerary(itineraryToSave);
