@@ -3,9 +3,12 @@ package fr.passpar2.api.routes.customer;
 import fr.passpar2.api.routes.contact.ContactDao;
 import fr.passpar2.api.routes.contact.dto.ContactRequestDto;
 import fr.passpar2.api.routes.customer.dto.CustomerRequestDto;
+import fr.passpar2.api.routes.itinerary.ItineraryDao;
+import fr.passpar2.api.routes.itinerary.ItineraryService;
 import fr.passpar2.api.routes.user.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,12 +16,15 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final UserService userService;
+    private final ItineraryService itineraryService;
 
     public CustomerService(
             CustomerRepository customerRepository,
-            UserService userService) {
+            UserService userService,
+            ItineraryService itineraryService) {
         this.customerRepository = customerRepository;
         this.userService = userService;
+        this.itineraryService = itineraryService;
     }
 
     public List<CustomerDao> getCustomersByUserId(int id) {
@@ -90,4 +96,15 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
+    public List<CustomerDao> getCustomersByItineraryId(String itineraryId) {
+        ItineraryDao itineraryFound = itineraryService.getItineraryById(itineraryId);
+        List<CustomerDao> customers = new ArrayList<>();
+
+        for (Integer customerId : itineraryFound.getItinerary()) {
+            CustomerDao customerFound = getCustomerById(customerId);
+            customers.add(customerFound);
+        }
+
+        return customers;
+    }
 }
