@@ -16,15 +16,14 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final UserService userService;
-    private final ItineraryService itineraryService;
+//    private final ItineraryService itineraryService;
 
     public CustomerService(
             CustomerRepository customerRepository,
-            UserService userService,
-            ItineraryService itineraryService) {
+            UserService userService) {
         this.customerRepository = customerRepository;
         this.userService = userService;
-        this.itineraryService = itineraryService;
+//        this.itineraryService = itineraryService;
     }
 
     public List<CustomerDao> getCustomersByUserId(int id) {
@@ -96,15 +95,15 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
-    public List<CustomerDao> getCustomersByItineraryId(String itineraryId) {
-        ItineraryDao itineraryFound = itineraryService.getItineraryById(itineraryId);
-        List<CustomerDao> customers = new ArrayList<>();
-
-        for (Integer customerId : itineraryFound.getItinerary()) {
-            CustomerDao customerFound = getCustomerById(customerId);
-            customers.add(customerFound);
-        }
-
-        return customers;
-    }
+//    public List<CustomerDao> getCustomersByItineraryId(String itineraryId) {
+//        ItineraryDao itineraryFound = itineraryService.getItineraryById(itineraryId);
+//        List<CustomerDao> customers = new ArrayList<>();
+//
+//        for (Integer customerId : itineraryFound.getItinerary()) {
+//            CustomerDao customerFound = getCustomerById(customerId);
+//            customers.add(customerFound);
+//        }
+//
+//        return customers;
+//    }
 }
