@@ -73,4 +73,15 @@ public class ItineraryService {
         return this.itineraryRepository.findByUserId(id);
     }
 
+    public List<CustomerDao> getCustomersByItineraryId(String itineraryId) {
+        ItineraryDao itineraryFound = getItineraryById(itineraryId);
+        List<CustomerDao> customers = new ArrayList<>();
+
+        for (Integer customerId : itineraryFound.getItinerary()) {
+            CustomerDao customerFound = customerService.getCustomerById(customerId);
+            customers.add(customerFound);
+        }
+
+        return customers;
+    }
 }
