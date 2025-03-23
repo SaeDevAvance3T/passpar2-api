@@ -7,12 +7,13 @@ import fr.passpar2.api.response.IFullResponse;
 import fr.passpar2.api.routes.user.UserDao;
 import fr.passpar2.api.routes.user.dto.UserBaseDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItineraryDto extends ItineraryBaseDto implements IFullResponse<ItineraryBaseDto> {
 
     private UserBaseDto user;
-    private List<CustomerBaseDto> customersToVisit;
+    private List<CustomerBaseDto> customersToVisit = new ArrayList<>();
 
     public ItineraryDto() { super(); }
 
