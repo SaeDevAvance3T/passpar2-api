@@ -17,7 +17,14 @@ public class CourseBaseDto implements IBaseResponse<CourseBaseDto> {
 
     public CourseBaseDto() { }
 
-    public CourseBaseDto(CourseDao model) { }
+    public CourseBaseDto(CourseDao model) {
+        this.id = model.getId();
+        this.userId = model.getUserId();
+        this.itineraryId = model.getItineraryId();
+        this.itineraryName = model.getItineraryName();
+        this.createdAt = model.getCreatedAt();
+        this.finishedAt = model.getFinishedAt();
+    }
 
     public String getId() {
         return id;

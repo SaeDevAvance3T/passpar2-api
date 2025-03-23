@@ -70,29 +70,38 @@ public class CourseService {
         course.setItineraryName(itineraryFound.getName());
         course.setCreatedAt(LocalDateTime.now());
 
+        AddressDao userAddressFound = addressService.getAddressByUserId(itineraryFound.getUserId());
+        course.addPoints(createCoursePoint(userAddressFound, null));
+
         for (Integer customerId : itineraryFound.getItinerary()) {
             AddressDao customerAddressFound = addressService.getAddressByCustomerId(customerId);
-            AddressDto customerAddress = new AddressDto(customerAddressFound);
-
-            double[] coordinates = CourseUtils.getCoordinatesFromAddress(customerAddress);
-            CoursePointCoordinates pointCoordinates = new CoursePointCoordinates();
-            pointCoordinates.setType("point");
-            pointCoordinates.setLatitude(coordinates[0]);
-            pointCoordinates.setLongitude(coordinates[1]);
-
-            CoursePoint point = new CoursePoint();
-            point.setCustomerId(customerId);
-            point.setCoordinates(pointCoordinates);
-            point.setVisited(false);
-
-            course.addPoints(point);
+            course.addPoints(createCoursePoint(customerAddressFound, customerId));
         }
 
         List<CoursePoint> bestCourse = CourseManager.findCourse(course.getPoints());
         course.setPoints(bestCourse);
 
-        CourseDao courseToSave = new CourseDao(course);
-        return saveCourse(courseToSave);
+        return saveCourse(new CourseDao(course));
+    }
+
+    private CoursePoint createCoursePoint(AddressDao addressDao, Integer customerId) {
+        AddressDto addressDto = new AddressDto(addressDao);
+        double[] coordinates = CourseUtils.getCoordinatesFromAddress(addressDto);
+
+        CoursePointCoordinates pointCoordinates = new CoursePointCoordinates();
+        pointCoordinates.setType("point");
+        pointCoordinates.setLatitude(coordinates[0]);
+        pointCoordinates.setLongitude(coordinates[1]);
+
+        CoursePoint point = new CoursePoint();
+        point.setCoordinates(pointCoordinates);
+        point.setVisited(false);
+
+        if (customerId != null) {
+            point.setCustomerId(customerId);
+        }
+
+        return point;
     }
 
     public CourseDao saveCourse(CourseDao courseDao) {
