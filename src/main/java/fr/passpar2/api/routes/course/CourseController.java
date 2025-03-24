@@ -77,6 +77,19 @@ public class CourseController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/points/{customerId}/past")
+    public ResponseEntity<ApiResponse<CourseDto>> updateCoursePointAsPast(@PathVariable String id, @PathVariable Integer customerId) {
+        CourseDao courseFound = courseService.getCourseById(id);
+        if (courseFound == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        CourseDao courseUpdated = courseService.pointIsPast(courseFound, customerId);
+        CourseDto course = new CourseDto(courseUpdated);
+
+        ApiResponse<CourseDto> response = new ApiResponse<>(course, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<CourseDto>> deleteCourse(@PathVariable String id) {
         CourseDao courseFound = courseService.getCourseById(id);

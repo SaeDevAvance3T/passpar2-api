@@ -40,19 +40,38 @@ public class CourseService {
     }
 
     public CourseDao pointIsVisited(CourseDao course, Integer customerId) {
-        int allPointsVisited = course.getPoints().size();
+        int allPointsVisitedOrPast = course.getPoints().size();
         boolean pointIsVisited = false;
         for (CoursePoint point : course.getPoints()) {
-            if (point.isVisited())
-                allPointsVisited--;
-            else if (point.getCustomerId() == customerId && !pointIsVisited) {
+            if (point.isVisited() || point.isPast())
+                allPointsVisitedOrPast--;
+            else if (point.getCustomerId() == customerId && !point.isVisited() && !point.isPast() && !pointIsVisited) {
                 point.setVisited(true);
                 pointIsVisited = true;
-                allPointsVisited--;
+                allPointsVisitedOrPast--;
             }
         }
 
-        if (allPointsVisited == 0)
+        if (allPointsVisitedOrPast == 0)
+            course.setFinishedAt(LocalDateTime.now());
+
+        return this.courseRepository.save(course);
+    }
+
+    public CourseDao pointIsPast(CourseDao course, Integer customerId) {
+        int allPointsVisitedOrPast = course.getPoints().size();
+        boolean pointIsPast = false;
+        for (CoursePoint point : course.getPoints()) {
+            if (point.isVisited() || point.isPast())
+                allPointsVisitedOrPast--;
+            else if (point.getCustomerId() == customerId && !point.isVisited() && !point.isPast() && !pointIsPast) {
+                point.setPast(true);
+                pointIsPast = true;
+                allPointsVisitedOrPast--;
+            }
+        }
+
+        if (allPointsVisitedOrPast == 0)
             course.setFinishedAt(LocalDateTime.now());
 
         return this.courseRepository.save(course);
@@ -97,6 +116,7 @@ public class CourseService {
         CoursePoint point = new CoursePoint();
         point.setCoordinates(pointCoordinates);
         point.setVisited(false);
+        point.setPast(false);
 
         if (customerId != null) {
             point.setCustomerId(customerId);
