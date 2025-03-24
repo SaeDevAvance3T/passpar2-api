@@ -156,7 +156,7 @@ public class CourseUtils {
 
     public static double distanceBetweenCoordinates(CoursePointCoordinates origin, CoursePointCoordinates destination) {
         try {
-            final String API_KEY = "vhfbL74u1cDYXZ74zNFXD2jtl86oW3q1m4Z6XtuEGKfTPYqmJ8oon0cTuYGkkOht";
+            final String API_KEY = "el6tTrx22MEl130sqdjERpX0dIH67ZQu8bt6r7tRen5xkswmL5Ywavtxh2XgbLqM";
             final String API_URL = "https://api.distancematrix.ai/maps/api/distancematrix/json";
 
             String encodedOrigin = URLEncoder.encode(origin.getCoordinates(), "UTF-8");
@@ -209,7 +209,7 @@ public class CourseUtils {
 
     public static double[] getCoordinatesFromAddress(AddressDto address) {
         try {
-            final String API_KEY = "vhfbL74u1cDYXZ74zNFXD2jtl86oW3q1m4Z6XtuEGKfTPYqmJ8oon0cTuYGkkOht";
+            final String API_KEY = "el6tTrx22MEl130sqdjERpX0dIH67ZQu8bt6r7tRen5xkswmL5Ywavtxh2XgbLqM";
             final String API_URL = "https://api.distancematrix.ai/maps/api/geocode/json";
 
             String encodedAddress = URLEncoder.encode(address.getFullAddress(), "UTF-8");
