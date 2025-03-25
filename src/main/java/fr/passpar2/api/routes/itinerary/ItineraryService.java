@@ -78,8 +78,12 @@ public class ItineraryService {
         List<CustomerDao> customers = new ArrayList<>();
 
         for (Integer customerId : itineraryFound.getItinerary()) {
-            CustomerDao customerFound = customerService.getCustomerById(customerId);
-            customers.add(customerFound);
+            try {
+                CustomerDao customerFound = customerService.getCustomerById(customerId);
+                customers.add(customerFound);
+            } catch (Exception e) {
+
+            }
         }
 
         return customers;
