@@ -1,6 +1,7 @@
 package fr.passpar2.api.routes.customer;
 
 import fr.passpar2.api.routes.contact.ContactDao;
+import fr.passpar2.api.routes.contact.dto.ContactDto;
 import fr.passpar2.api.routes.contact.dto.ContactRequestDto;
 import fr.passpar2.api.routes.customer.dto.CustomerRequestDto;
 import fr.passpar2.api.routes.itinerary.ItineraryDao;
@@ -90,6 +91,11 @@ public class CustomerService {
     }
 
     public void saveCustomer(CustomerDao customer) {
+        customerRepository.save(customer);
+    }
+
+    public void addContact(CustomerDao customer, ContactDao contact) {
+        customer.addContacts(contact);
         customerRepository.save(customer);
     }
 }

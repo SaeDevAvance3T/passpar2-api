@@ -70,8 +70,8 @@ public class ContactController {
         CustomerDao customerFound = customerService.getCustomerById(customerId);
 
         ContactDao contactCreated = contactService.createContact(request.getFirstName(), request.getLastName(), request.getPhone());
+        customerService.addContact(customerFound, contactCreated);
         ContactDto contact = new ContactDto(contactCreated);
-        customerFound.addContacts(contactCreated);
 
         ApiResponse<ContactDto> response = new ApiResponse<>(contact, HttpStatus.CREATED);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
